@@ -1,0 +1,14 @@
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\Repositories.deps.json
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\Repositories.dll
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\Repositories.pdb
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\DataEntities.dll
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\Domain.dll
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\Domain.pdb
+D:\Genistash\GitHub\AdminERP.API\Repositories\bin\Debug\netcoreapp2.2\DataEntities.pdb
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.csprojAssemblyReference.cache
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.csproj.CoreCompileInputs.cache
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.AssemblyInfoInputs.cache
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.AssemblyInfo.cs
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.csproj.CopyComplete
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.dll
+D:\Genistash\GitHub\AdminERP.API\Repositories\obj\Debug\netcoreapp2.2\Repositories.pdb

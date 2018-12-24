@@ -1,0 +1,8 @@
+D:\Genistash\GitHub\AdminERP.API\IoC\bin\Debug\netcoreapp2.1\IoC.deps.json
+D:\Genistash\GitHub\AdminERP.API\IoC\bin\Debug\netcoreapp2.1\IoC.dll
+D:\Genistash\GitHub\AdminERP.API\IoC\bin\Debug\netcoreapp2.1\IoC.pdb
+D:\Genistash\GitHub\AdminERP.API\IoC\obj\Debug\netcoreapp2.1\IoC.csproj.CoreCompileInputs.cache
+D:\Genistash\GitHub\AdminERP.API\IoC\obj\Debug\netcoreapp2.1\IoC.AssemblyInfoInputs.cache
+D:\Genistash\GitHub\AdminERP.API\IoC\obj\Debug\netcoreapp2.1\IoC.AssemblyInfo.cs
+D:\Genistash\GitHub\AdminERP.API\IoC\obj\Debug\netcoreapp2.1\IoC.dll
+D:\Genistash\GitHub\AdminERP.API\IoC\obj\Debug\netcoreapp2.1\IoC.pdb

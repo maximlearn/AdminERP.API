@@ -1,0 +1,11 @@
+D:\Genistash\GitHub\AdminERP.API\DataEntities\bin\Debug\netcoreapp2.2\DataEntities.deps.json
+D:\Genistash\GitHub\AdminERP.API\DataEntities\bin\Debug\netcoreapp2.2\DataEntities.runtimeconfig.json
+D:\Genistash\GitHub\AdminERP.API\DataEntities\bin\Debug\netcoreapp2.2\DataEntities.runtimeconfig.dev.json
+D:\Genistash\GitHub\AdminERP.API\DataEntities\bin\Debug\netcoreapp2.2\DataEntities.dll
+D:\Genistash\GitHub\AdminERP.API\DataEntities\bin\Debug\netcoreapp2.2\DataEntities.pdb
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.csproj.CoreCompileInputs.cache
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.AssemblyInfoInputs.cache
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.AssemblyInfo.cs
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.dll
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.pdb
+D:\Genistash\GitHub\AdminERP.API\DataEntities\obj\Debug\netcoreapp2.2\DataEntities.csprojAssemblyReference.cache
