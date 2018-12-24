@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DataEntities.AdminERPContext.Models;
+//using DataEntities.AdminERPContext.Models;
 using Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace IoC.Mappings
     {
         public Mappings()
         {
-            CreateMap<AssetModel, Asset>().ReverseMap();
-            CreateMap<AssetDetailModel, AssetDetail>().ReverseMap();
-            CreateMap<AssetCategoryModel, AssetCategory>().ReverseMap();
+            //CreateMap<AssetModel, Asset>().ReverseMap();
+            //CreateMap<AssetDetailModel, AssetDetail>().ReverseMap();
+            //CreateMap<AssetCategoryModel, AssetCategory>().ReverseMap();
         }
     }
 }

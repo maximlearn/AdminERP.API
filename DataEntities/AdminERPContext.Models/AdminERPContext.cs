@@ -42,7 +42,7 @@ namespace DataEntities.AdminERPContext.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(local);Database=AdminERP;Integrated Security=True;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=Win10Dev\\WINDEVSQL;Database=AdminERP;Trusted_Connection=True;");
             }
         }
 
@@ -140,10 +140,16 @@ namespace DataEntities.AdminERPContext.Models
 
                 entity.Property(e => e.WarrantyExpireDate).HasColumnType("date");
 
+                entity.HasOne(d => d.Asset)
+                    .WithMany(p => p.AssetDetail)
+                    .HasForeignKey(d => d.AssetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AssetDetail_Asset");
+
                 entity.HasOne(d => d.Vendor)
                     .WithMany(p => p.AssetDetail)
                     .HasForeignKey(d => d.VendorId)
-                    .HasConstraintName("FK_AssetDetail_Asset");
+                    .HasConstraintName("FK_AssetDetail_Vendor");
             });
 
             modelBuilder.Entity<AssetGatePass>(entity =>
