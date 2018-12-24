@@ -16,6 +16,7 @@ namespace DataEntities.AdminERPContext.Models
         public string ModelNumber { get; set; }
         public string SerialNumber { get; set; }
 
+        public virtual Asset Asset { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
 }

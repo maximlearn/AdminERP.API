@@ -7,6 +7,7 @@ namespace DataEntities.AdminERPContext.Models
     {
         public Asset()
         {
+            AssetDetail = new HashSet<AssetDetail>();
             AssetGatePassDetail = new HashSet<AssetGatePassDetail>();
         }
 
@@ -24,6 +25,7 @@ namespace DataEntities.AdminERPContext.Models
         public virtual AssetCategory AssetCategory { get; set; }
         public virtual User CreatedByNavigation { get; set; }
         public virtual User ModifiedByNavigation { get; set; }
+        public virtual ICollection<AssetDetail> AssetDetail { get; set; }
         public virtual ICollection<AssetGatePassDetail> AssetGatePassDetail { get; set; }
     }
 }
