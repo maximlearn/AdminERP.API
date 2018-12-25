@@ -1,19 +1,30 @@
 ﻿using System;
+using System.Linq;
+using DataEntities.DbContexts.Interface;
+using Domain.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataEntities.AdminERPContext.Models
 {
-    public partial class AdminERPContext : DbContext
+    public partial class AdminERPContext : DbContext , ITargetDbContext
     {
-        public AdminERPContext()
+        private readonly IConnectionString connectionString;
+
+        public AdminERPContext(IConnectionString _connectionString)
         {
+            connectionString = _connectionString;
         }
 
-        public AdminERPContext(DbContextOptions<AdminERPContext> options)
-            : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-        }
+            optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
+        }       
+
+        //public AdminERPContext(DbContextOptions<AdminERPContext> options)
+        //    : base(options)
+        //{
+        //}
 
         public virtual DbSet<Asset> Asset { get; set; }
         public virtual DbSet<AssetCategory> AssetCategory { get; set; }
@@ -37,14 +48,14 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=Win10Dev\\WINDEVSQL;Database=AdminERP;Trusted_Connection=True;");
-            }
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Server=Win10Dev\\WINDEVSQL;Database=AdminERP;Trusted_Connection=True;");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -603,5 +614,15 @@ namespace DataEntities.AdminERPContext.Models
                     .IsUnicode(false);
             });
         }
+
+        public IQueryable<TEntity> DbSet<TEntity>() where TEntity : class, new()
+        {
+            return Set<TEntity>();
+        }
+
+        //public IQueryable<TEntity> DbSet<TEntity>() where TEntity : class, new()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

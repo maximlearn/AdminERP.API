@@ -12,9 +12,9 @@ namespace Domain.Provider
 
         public ConnectionString(IConfiguration _configuration)
         {
-            this.configuration = _configuration;
+            configuration = _configuration;
         }
 
-        public string TargetDatabaseConnectionString => this.configuration.GetConnectionString("TargetDatabase");
+        public string TargetDatabaseConnectionString => configuration.GetConnectionString("TargetDatabase");
     }
 }

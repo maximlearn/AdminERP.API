@@ -9,81 +9,81 @@ using System.Text;
 
 namespace DataEntities.DbContexts
 {
-    public class ITargetDbContext : DbContext, Interface.ITargetDbContext
+    public class TargetDbContext : DbContext//, ITargetDbContext
     {
-        private readonly IConnectionString connectionString;
+        //private readonly IConnectionString connectionString;
 
-        public ITargetDbContext(IConnectionString _connectionString)
-        {
-            this.connectionString = _connectionString;
-        }
+        //public TargetDbContext(IConnectionString _connectionString)
+        //{
+        //    this.connectionString = _connectionString;
+        //}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
+        //}
 
-        IQueryable<TEntity> Interface.ITargetDbContext.DbSet<TEntity>()
-        {
-            return Set<TEntity>();
-        }
+        //IQueryable<TEntity> ITargetDbContext.DbSet<TEntity>()
+        //{
+        //    return Set<TEntity>();
+        //}
 
-        void Interface.ITargetDbContext.Save()
-        {
-            SaveChanges();
-        }
+        //void Interface.ITargetDbContext.Save()
+        //{
+        //    SaveChanges();
+        //}
 
-        void Interface.ITargetDbContext.AddEntity<TEntity>(TEntity entity)
-        {
-            Add(entity);
-        }
+        //void Interface.ITargetDbContext.AddEntity<TEntity>(TEntity entity)
+        //{
+        //    Add(entity);
+        //}
 
-        void Interface.ITargetDbContext.AddRange(IEnumerable<object> entities)
-        {
-            AddRange(entities);
-        }
+        //void Interface.ITargetDbContext.AddRange(IEnumerable<object> entities)
+        //{
+        //    AddRange(entities);
+        //}
 
-        public void Delete<TEntity>(Expression<Func<TEntity, bool>> expr) where TEntity : class
-        {
-            Set<TEntity>().RemoveRange(Set<TEntity>().Where(expr));
-        }
+        //public void Delete<TEntity>(Expression<Func<TEntity, bool>> expr) where TEntity : class
+        //{
+        //    Set<TEntity>().RemoveRange(Set<TEntity>().Where(expr));
+        //}
 
-        public void Delete<TEntity>(IEnumerable<TEntity> toDelete) where TEntity : class
-        {
-            Set<TEntity>().RemoveRange(toDelete);
-        }
+        //public void Delete<TEntity>(IEnumerable<TEntity> toDelete) where TEntity : class
+        //{
+        //    Set<TEntity>().RemoveRange(toDelete);
+        //}
 
-        public void Delete<TEntity>(TEntity entity) where TEntity : class
-        {
-            Set<TEntity>().Remove(entity);
-        }
+        //public void Delete<TEntity>(TEntity entity) where TEntity : class
+        //{
+        //    Set<TEntity>().Remove(entity);
+        //}
 
-        public void AttachEntity<TEntity>(TEntity entity) where TEntity : class, new()
-        {
-            Attach(entity);
-        }
+        //public void AttachEntity<TEntity>(TEntity entity) where TEntity : class, new()
+        //{
+        //    Attach(entity);
+        //}
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-           // modelBuilder.RegisterEntitiesConfigurationFromAssemblyOfType<EntityBase>();
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //   // modelBuilder.RegisterEntitiesConfigurationFromAssemblyOfType<EntityBase>();
+        //}
 
-        public override int SaveChanges()
-        {
-            return SaveChangesCommon();
-        }
+        //public override int SaveChanges()
+        //{
+        //    return SaveChangesCommon();
+        //}
 
-        private int SaveChangesCommon()
-        {
+        //private int SaveChangesCommon()
+        //{
 
-            return base.SaveChanges();
-        }
+        //    return base.SaveChanges();
+        //}
 
-        void Interface.ITargetDbContext.UpdateEntity<TEntity>(TEntity entity)
-        {
-            Update(entity);
-        }
+        //void Interface.ITargetDbContext.UpdateEntity<TEntity>(TEntity entity)
+        //{
+        //    Update(entity);
+        //}
 
     }
 }

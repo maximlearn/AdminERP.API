@@ -1,4 +1,6 @@
-﻿using DataEntities.DbContexts;
+﻿using DataEntities.AdminERPContext.Models;
+using DataEntities.DbContexts;
+using DataEntities.DbContexts.Interface;
 using Domain.Interface;
 using Domain.Provider;
 using Domain.Repositories;
@@ -16,7 +18,7 @@ namespace IoC.Registries
     {
         public static void AddCommonServices(this IServiceCollection services)
         {
-            services.AddScoped<ITargetDbContext, ITargetDbContext>();
+            services.AddScoped<ITargetDbContext, AdminERPContext>();
             services.AddTransient<IConnectionString, ConnectionString>();
         }
 

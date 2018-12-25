@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataEntities.AdminERPContext.Models;
-using DataEntities.DbContexts;
+
+using DataEntities.DbContexts.Interface;
 using Domain.Interface;
 using Domain.Models;
 using Domain.Repositories;
@@ -16,17 +17,17 @@ namespace Repositories.Repository
         private readonly IConnectionString connectionString;
         private readonly ITargetDbContext targetDbContext;
         private readonly IMapper modelMapper;
-        public AssetRepository(IConnectionString _connectionString, ITargetDbContext _targetDbContext, IMapper _modelMapper)
+        public AssetRepository(IConnectionString _connectionString, ITargetDbContext _targetDbContext,  IMapper _modelMapper)
         {
-            this.connectionString = _connectionString;
-            this.targetDbContext = _targetDbContext;
-            this.modelMapper = _modelMapper;
+            connectionString = _connectionString;
+            targetDbContext = _targetDbContext;
+            modelMapper = _modelMapper;
         }
 
         public IEnumerable<AssetModel> GetAllAsset()
         {
-            var context = new AdminERPContext();
-            var assetItems = context.Asset.Include("AssetDetail").Include("AssetCategory").ToListAsync();
+            var context = new AdminERPContext(this.connectionString);
+            var assetItems = context.Asset.Include("AssetDetail").Include("AssetCategory");
             return modelMapper.Map<List<AssetModel>>(assetItems);
         }
 

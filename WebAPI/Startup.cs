@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using AutoMapper;
 using IoC.Mappings;
+using DataEntities.DbContexts.Interface;
+using DataEntities.AdminERPContext.Models;
 
 namespace WebAPI
 {
@@ -38,7 +40,7 @@ namespace WebAPI
             services.AddAppService();
            
 
-            services.AddDbContext<ITargetDbContext>(
+            services.AddDbContext<AdminERPContext>(
                 builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
            
           
@@ -62,13 +64,18 @@ namespace WebAPI
             }
             else
             {
-                // app.UseHsts();
+                app.UseExceptionHandler("/error");
             }
-
-            // app.UseHttpsRedirection();
-            app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI();
+           //// app.UseBcSwaggerWithUI();
+           // app.UseReadableResponse();
+            app.UseCors("CorsPolicy");
+            //app.UseAuthentication();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "api/{controller=Asset}/{action=GetAllAsset}/{id?}");
+            });
         }
     }
 }

@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Domain.Interface
 {
-   public  class IConnectionString
+   public  interface IConnectionString
     {
-        public string TargetDatabaseConnectionString { get; }
+         string TargetDatabaseConnectionString { get; }
     }
 }
