@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Domain.Services
 {
-    public class IAssetService
+    public interface IAssetService
     {
+        IEnumerable<AssetModel> GetAllAsset();
     }
 }

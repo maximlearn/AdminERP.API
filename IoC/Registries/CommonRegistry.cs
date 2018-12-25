@@ -16,16 +16,14 @@ namespace IoC.Registries
     {
         public static void AddCommonServices(this IServiceCollection services)
         {
-            services.AddScoped<TargetDbContext, TargetDbContext>();
+            services.AddScoped<ITargetDbContext, ITargetDbContext>();
             services.AddTransient<IConnectionString, ConnectionString>();
         }
 
         public static void AddAppService(this IServiceCollection services)
         {
             services.AddTransient<IAssetRepository, AssetRepository>();
-            services.AddTransient<IAssetService, AssetService>();
-            //services.AddTransient<IAssetRepository, AssetRepository>();
-            //services.AddTransient<IAssetService, AssetService>();
+            services.AddTransient<IAssetService, AssetService>();          
 
         }
     }
