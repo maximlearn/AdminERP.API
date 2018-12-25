@@ -7,6 +7,6 @@ namespace Domain.Services
 {
     public interface ISecurityQuestionService
     {
-        //IEnumerable<SecurityQuestionModel> GetAll();
+        IEnumerable<SecurityQuestionModel> GetAll();
     }
 }
