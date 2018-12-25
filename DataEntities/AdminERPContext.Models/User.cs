@@ -18,8 +18,6 @@ namespace DataEntities.AdminERPContext.Models
             CompanyModifiedByNavigation = new HashSet<Company>();
             DepartmentCreatedByNavigation = new HashSet<Department>();
             DepartmentModifiedByNavigation = new HashSet<Department>();
-            RoleCreatedByNavigation = new HashSet<Role>();
-            RoleModifiedByNavigation = new HashSet<Role>();
             UserCredential = new HashSet<UserCredential>();
             UserRole = new HashSet<UserRole>();
             UserSecurityAnswer = new HashSet<UserSecurityAnswer>();
@@ -34,9 +32,9 @@ namespace DataEntities.AdminERPContext.Models
         public string Email { get; set; }
         public int? DeptId { get; set; }
         public bool? IsActive { get; set; }
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
+        public int? ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<AssetCategory> AssetCategoryCreatedByNavigation { get; set; }
@@ -50,8 +48,6 @@ namespace DataEntities.AdminERPContext.Models
         public virtual ICollection<Company> CompanyModifiedByNavigation { get; set; }
         public virtual ICollection<Department> DepartmentCreatedByNavigation { get; set; }
         public virtual ICollection<Department> DepartmentModifiedByNavigation { get; set; }
-        public virtual ICollection<Role> RoleCreatedByNavigation { get; set; }
-        public virtual ICollection<Role> RoleModifiedByNavigation { get; set; }
         public virtual ICollection<UserCredential> UserCredential { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
         public virtual ICollection<UserSecurityAnswer> UserSecurityAnswer { get; set; }

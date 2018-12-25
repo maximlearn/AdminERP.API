@@ -7,7 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataEntities.AdminERPContext.Models
 {
-    public partial class AdminERPContext : DbContext , ITargetDbContext
+    //Scaffolding command to be run on Package Manager Console
+    //Scaffold-DbContext -Connection "Server=(local);Database=AdminERP;Integrated Security=True;Trusted_Connection=True;" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir AdminERPContext.Models -context AdminERPContext -Project DataEntities -force
+
+    public partial class AdminERPContext : DbContext, ITargetDbContext
     {
         private readonly IConnectionString connectionString;
 
@@ -19,12 +22,7 @@ namespace DataEntities.AdminERPContext.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
-        }       
-
-        //public AdminERPContext(DbContextOptions<AdminERPContext> options)
-        //    : base(options)
-        //{
-        //}
+        }
 
         public virtual DbSet<Asset> Asset { get; set; }
         public virtual DbSet<AssetCategory> AssetCategory { get; set; }
@@ -47,15 +45,6 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Server=Win10Dev\\WINDEVSQL;Database=AdminERP;Trusted_Connection=True;");
-//            }
-//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,9 +71,13 @@ namespace DataEntities.AdminERPContext.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.AssetCategory)
                     .WithMany(p => p.Asset)
@@ -114,9 +107,13 @@ namespace DataEntities.AdminERPContext.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.AssetCategoryCreatedByNavigation)
@@ -137,15 +134,21 @@ namespace DataEntities.AdminERPContext.Models
 
                 entity.Property(e => e.AssetId).HasColumnName("AssetID");
 
-                entity.Property(e => e.BrandName).HasMaxLength(10);
+                entity.Property(e => e.BrandName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Cost).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.ModelNumber).HasMaxLength(10);
+                entity.Property(e => e.ModelNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.PurchaseDate).HasColumnType("date");
 
-                entity.Property(e => e.SerialNumber).HasMaxLength(10);
+                entity.Property(e => e.SerialNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.VendorId).HasColumnName("VendorID");
 
@@ -332,33 +335,33 @@ namespace DataEntities.AdminERPContext.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.DepartmentName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.DepartmentCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Department_User");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.DepartmentModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Department_User1");
             });
 
             modelBuilder.Entity<Function>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.FunctionCode)
                     .IsRequired()
@@ -387,9 +390,7 @@ namespace DataEntities.AdminERPContext.Models
 
             modelBuilder.Entity<Menu>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Controller).HasMaxLength(150);
 
@@ -418,13 +419,15 @@ namespace DataEntities.AdminERPContext.Models
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.RoleDescription)
                     .IsRequired()
@@ -433,18 +436,6 @@ namespace DataEntities.AdminERPContext.Models
                 entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(250);
-
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.RoleCreatedByNavigation)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Role_User1");
-
-                entity.HasOne(d => d.ModifiedByNavigation)
-                    .WithMany(p => p.RoleModifiedByNavigation)
-                    .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Role_User2");
             });
 
             modelBuilder.Entity<RoleFunction>(entity =>
@@ -503,7 +494,9 @@ namespace DataEntities.AdminERPContext.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
@@ -523,7 +516,9 @@ namespace DataEntities.AdminERPContext.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Phone)
                     .HasMaxLength(50)
@@ -617,12 +612,7 @@ namespace DataEntities.AdminERPContext.Models
 
         public IQueryable<TEntity> DbSet<TEntity>() where TEntity : class, new()
         {
-            return Set<TEntity>();
+            throw new NotImplementedException();
         }
-
-        //public IQueryable<TEntity> DbSet<TEntity>() where TEntity : class, new()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
