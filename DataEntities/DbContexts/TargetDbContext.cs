@@ -9,11 +9,11 @@ using System.Text;
 
 namespace DataEntities.DbContexts
 {
-    public class TargetDbContext : DbContext, ITargetDbContext
+    public class ITargetDbContext : DbContext, Interface.ITargetDbContext
     {
         private readonly IConnectionString connectionString;
 
-        public TargetDbContext(IConnectionString _connectionString)
+        public ITargetDbContext(IConnectionString _connectionString)
         {
             this.connectionString = _connectionString;
         }
@@ -23,22 +23,22 @@ namespace DataEntities.DbContexts
             optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
         }
 
-        IQueryable<TEntity> ITargetDbContext.DbSet<TEntity>()
+        IQueryable<TEntity> Interface.ITargetDbContext.DbSet<TEntity>()
         {
             return Set<TEntity>();
         }
 
-        void ITargetDbContext.Save()
+        void Interface.ITargetDbContext.Save()
         {
             SaveChanges();
         }
 
-        void ITargetDbContext.AddEntity<TEntity>(TEntity entity)
+        void Interface.ITargetDbContext.AddEntity<TEntity>(TEntity entity)
         {
             Add(entity);
         }
 
-        void ITargetDbContext.AddRange(IEnumerable<object> entities)
+        void Interface.ITargetDbContext.AddRange(IEnumerable<object> entities)
         {
             AddRange(entities);
         }
@@ -80,7 +80,7 @@ namespace DataEntities.DbContexts
             return base.SaveChanges();
         }
 
-        void ITargetDbContext.UpdateEntity<TEntity>(TEntity entity)
+        void Interface.ITargetDbContext.UpdateEntity<TEntity>(TEntity entity)
         {
             Update(entity);
         }

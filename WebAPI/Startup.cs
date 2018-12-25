@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataEntities.DbContexts;
+using IoC.Registries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using AutoMapper;
+using IoC.Mappings;
 
 namespace WebAPI
 {
@@ -26,6 +31,26 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IConfiguration>(Configuration);
+            //services.AddSingleton<ConnectionStringSettings>();
+          
+            services.AddCommonServices();
+            services.AddAppService();
+           
+
+            services.AddDbContext<ITargetDbContext>(
+                builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
+           
+          
+            services.AddAutoMapper(typeof(Mappings));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
