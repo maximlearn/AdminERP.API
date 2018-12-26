@@ -15,13 +15,11 @@ namespace DataEntities.AdminERPContext.Models
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
+        public int? ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual User CreatedByNavigation { get; set; }
-        public virtual User ModifiedByNavigation { get; set; }
         public virtual ICollection<RoleFunction> RoleFunction { get; set; }
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
