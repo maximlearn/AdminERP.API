@@ -40,6 +40,8 @@ namespace WebAPI
           
             services.AddCommonServices();
             services.AddAppService();
+            services.AddSwaggerGen(c =>
+            { c.SwaggerDoc("v1", new Info { Title = "AdminERP" }); });
            
 
             services.AddDbContext<AdminERPContext>(
@@ -77,6 +79,12 @@ namespace WebAPI
                 routes.MapRoute(
                     name: "default",
                     template: "api/{controller=Asset}/{action=GetAllAsset}/{id?}");
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c=>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
             });
         }
     }
