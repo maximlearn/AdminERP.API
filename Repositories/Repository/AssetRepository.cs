@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DataEntities.AdminERPContext.Models;
-
+using System.Linq;
 using DataEntities.DbContexts.Interface;
 using Domain.Interface;
 using Domain.Models;
@@ -26,8 +26,21 @@ namespace Repositories.Repository
 
         public IEnumerable<AssetModel> GetAllAsset()
         {
-            var context = new AdminERPContext(this.connectionString);
-            var assetItems = context.Asset.Include("AssetDetail").Include("AssetCategory");
+            var context = new AdminERPContext(connectionString);
+            var assetItems = context
+   .Asset.Include(x => x.AssetCategory)
+   .Include(x => x.AssetDetail)
+   .ThenInclude(y => y.Vendor);
+   //.SingleOrDefault(x => x.BookId == "some example id")
+  
+          //  var assetItems = context.Asset.Include(x => x.AssetCategory).Include(y => y.AssetDetail.Select(i=>i.Vendor));
+
+            //var assetItems = context.Asset.Select(x => new
+            //{
+            //    AssetCategory = x.AssetCategory,
+            //    AssetDetail = x.AssetDetail,
+            //    Vendor = x.AssetDetail.Select(y=>y.Vendor)
+            //}).ToList();
             return modelMapper.Map<List<AssetModel>>(assetItems);
         }
 

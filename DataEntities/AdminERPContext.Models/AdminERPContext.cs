@@ -19,12 +19,7 @@ namespace DataEntities.AdminERPContext.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
-        }       
-
-        //public AdminERPContext(DbContextOptions<AdminERPContext> options)
-        //    : base(options)
-        //{
-        //}
+        }    
 
         public virtual DbSet<Asset> Asset { get; set; }
         public virtual DbSet<AssetCategory> AssetCategory { get; set; }
@@ -47,15 +42,6 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Server=Win10Dev\\WINDEVSQL;Database=AdminERP;Trusted_Connection=True;");
-//            }
-//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

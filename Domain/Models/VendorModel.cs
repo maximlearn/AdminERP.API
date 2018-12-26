@@ -14,6 +14,6 @@ namespace Domain.Models
         public string VendorName { get; set; }
         public bool? IsActive { get; set; }
 
-        //public virtual ICollection<AssetDetail> AssetDetail { get; set; }
+       // public virtual ICollection<AssetDetailModel> AssetDetail { get; set; }
     }
 }

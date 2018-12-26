@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataEntities.AdminERPContext.Models
 {
@@ -17,6 +18,7 @@ namespace DataEntities.AdminERPContext.Models
         public string SerialNumber { get; set; }
 
         public virtual Asset Asset { get; set; }
+        
         public virtual Vendor Vendor { get; set; }
     }
 }

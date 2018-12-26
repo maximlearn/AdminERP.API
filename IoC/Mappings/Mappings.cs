@@ -14,6 +14,7 @@ namespace IoC.Mappings
             CreateMap<AssetModel, Asset>().ReverseMap();
             CreateMap<AssetDetailModel, AssetDetail>().ReverseMap();
             CreateMap<AssetCategoryModel, AssetCategory>().ReverseMap();
+            CreateMap<VendorModel, Vendor>().ReverseMap();
         }
 
     }

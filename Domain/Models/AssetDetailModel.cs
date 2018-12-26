@@ -23,7 +23,7 @@ namespace Domain.Models
         public string SerialNumber { get; set; }
 
         public virtual AssetModel Asset { get; set; }
-        //public virtual Vendor Vendor { get; set; }
+        public virtual VendorModel Vendor { get; set; }
 
     }
 }
