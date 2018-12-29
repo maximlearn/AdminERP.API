@@ -28,20 +28,24 @@ namespace Repositories.Repository
         {
             var context = new AdminERPContext(connectionString);
             var assetItems = context
-   .Asset.Include(x => x.AssetCategory)
-   .Include(x => x.AssetDetail)
-   .ThenInclude(y => y.Vendor);
-   //.SingleOrDefault(x => x.BookId == "some example id")
-  
-          //  var assetItems = context.Asset.Include(x => x.AssetCategory).Include(y => y.AssetDetail.Select(i=>i.Vendor));
-
-            //var assetItems = context.Asset.Select(x => new
-            //{
-            //    AssetCategory = x.AssetCategory,
-            //    AssetDetail = x.AssetDetail,
-            //    Vendor = x.AssetDetail.Select(y=>y.Vendor)
-            //}).ToList();
+                                .Asset.Include(x => x.AssetCategory)
+                                .Include(x => x.AssetDetail)
+                                .ThenInclude(y => y.Vendor);   
             return modelMapper.Map<List<AssetModel>>(assetItems);
+        }
+
+        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetCategoryItems = context.AssetCategory.Where(x => x.IsActive == true).ToList(); ;
+            return modelMapper.Map<List<AssetCategoryModel>>(assetCategoryItems);
+        }
+
+        public IEnumerable<VendorModel> GetAllVendor()
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetCategoryItems = context.Vendor.Where(x => x.IsActive == true).ToList(); ;
+            return modelMapper.Map<List<VendorModel>>(assetCategoryItems);
         }
 
         public AssetModel SaveAsset(AssetModel assetModel)

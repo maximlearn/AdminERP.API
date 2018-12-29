@@ -9,5 +9,7 @@ namespace Domain.Repositories
     {
         IEnumerable<AssetModel> GetAllAsset();
         AssetModel SaveAsset(AssetModel assetModel);
+        IEnumerable<AssetCategoryModel> GetAllAssetCategory();
+        IEnumerable<VendorModel> GetAllVendor();
     }
 }
