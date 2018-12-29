@@ -19,5 +19,10 @@ namespace Services.Implementation
         {
             return this.assetRepository.GetAllAsset();
         }
+
+        public AssetModel SaveAsset(AssetModel assetModel)
+        {
+            return this.assetRepository.SaveAsset(assetModel);
+        }
     }
 }

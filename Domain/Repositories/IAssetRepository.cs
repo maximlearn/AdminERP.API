@@ -8,5 +8,6 @@ namespace Domain.Repositories
     public interface IAssetRepository
     {
         IEnumerable<AssetModel> GetAllAsset();
+        AssetModel SaveAsset(AssetModel assetModel);
     }
 }

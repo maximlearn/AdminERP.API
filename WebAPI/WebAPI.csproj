@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="UploadFiles\" />
     <Folder Include="Settings\" />
     <Folder Include="Shared\" />
     <Folder Include="wwwroot\" />

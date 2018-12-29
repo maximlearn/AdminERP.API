@@ -44,5 +44,49 @@ namespace Repositories.Repository
             return modelMapper.Map<List<AssetModel>>(assetItems);
         }
 
+        public AssetModel SaveAsset(AssetModel assetModel)
+        {
+            
+           return AddAsset(assetModel);           
+           
+        }
+
+        private AssetModel AddAsset(AssetModel assetModel)
+        {
+            Asset assetEntity = new Asset();
+            assetEntity.AssetTagId = assetModel.AssetTagId;
+            assetEntity.AssetCategoryId = assetModel.AssetCategoryId;
+            assetEntity.AssetName = assetModel.AssetName;
+            assetEntity.AssetDescription = assetModel.AssetDescription;
+            assetEntity.CreatedBy = 1;
+            assetEntity.CreatedDate = DateTime.Now;
+            assetEntity.ModifiedBy = 1;
+            assetEntity.ModifiedDate = DateTime.Now;
+            assetEntity.IsActive = true;
+            var context = new AdminERPContext(connectionString);
+            context.Add(assetEntity);
+            context.SaveChanges();
+            Int64 assetId = assetEntity.Id;
+            assetModel.Id = assetEntity.Id;
+            AssetDetail assetDetailEntity = new AssetDetail();
+            assetDetailEntity.AssetId = assetId;
+            assetDetailEntity.BrandName = assetModel.AssetDetail.FirstOrDefault().BrandName;
+            assetDetailEntity.ModelNumber = assetModel.AssetDetail.FirstOrDefault().ModelNumber; 
+            assetDetailEntity.SerialNumber = assetModel.AssetDetail.FirstOrDefault().SerialNumber;
+            assetDetailEntity.Cost = assetModel.AssetDetail.FirstOrDefault().Cost;
+            assetDetailEntity.VendorId = assetModel.AssetDetail.FirstOrDefault().VendorId;
+            assetDetailEntity.PurchaseDate = assetModel.AssetDetail.FirstOrDefault().PurchaseDate; ;
+            assetDetailEntity.WarrantyExpireDate = assetModel.AssetDetail.FirstOrDefault().WarrantyExpireDate;
+            assetDetailEntity.WarrantyDocumentId = assetModel.AssetDetail.FirstOrDefault().WarrantyDocumentId;
+           
+
+            context.Add(assetDetailEntity);
+            context.SaveChanges();
+            assetModel.AssetDetail.FirstOrDefault().Id = assetDetailEntity.Id;
+            assetModel.AssetDetail.FirstOrDefault().AssetId = assetModel.Id;
+
+            return assetModel;
+        }
+
     }
 }
