@@ -42,11 +42,9 @@ namespace WebAPI
             services.AddAppService();
             services.AddSwaggerGen(c =>
             { c.SwaggerDoc("v1", new Info { Title = "AdminERP" }); });
-           
 
             services.AddDbContext<AdminERPContext>(
                 builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
-           
           
             services.AddAutoMapper(typeof(Mappings));
             services.AddCors(options =>
@@ -70,10 +68,7 @@ namespace WebAPI
             {
                 app.UseExceptionHandler("/error");
             }
-           //// app.UseBcSwaggerWithUI();
-           // app.UseReadableResponse();
             app.UseCors("CorsPolicy");
-            //app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -84,7 +79,6 @@ namespace WebAPI
             app.UseSwaggerUI(c=>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                //c.RoutePrefix = string.Empty;
             });
         }
     }
