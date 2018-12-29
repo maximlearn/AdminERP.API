@@ -12,5 +12,7 @@ namespace Domain.Repositories
         AssetModel GetAssetById(int assetId);
         //Task<AssetModel> GetById(int assetId);
         AssetModel SaveAsset(AssetModel assetModel);
+        IEnumerable<AssetCategoryModel> GetAllAssetCategory();
+        IEnumerable<VendorModel> GetAllVendor();
     }
 }

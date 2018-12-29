@@ -18,6 +18,7 @@ namespace Repositories.Repository
         private readonly IConnectionString connectionString;
         private readonly ITargetDbContext targetDbContext;
         private readonly IMapper modelMapper;
+
         public AssetRepository(IConnectionString _connectionString, ITargetDbContext _targetDbContext,  IMapper _modelMapper)
         {
             connectionString = _connectionString;
@@ -47,17 +48,23 @@ namespace Repositories.Repository
             return modelMapper.Map<AssetModel>(assetItems);
         }
 
-        //public async Task<AssetModel> GetById(int assetId)
-        //{
-        //    var context = new AdminERPContext(connectionString);
-        //    return await context.Asset.Where(p => p.Id == assetId).FirstOrDefaultAsync();
-        //}
+        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetCategoryItems = context.AssetCategory.Where(x => x.IsActive == true).ToList(); ;
+            return modelMapper.Map<List<AssetCategoryModel>>(assetCategoryItems);
+        }
+
+        public IEnumerable<VendorModel> GetAllVendor()
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetCategoryItems = context.Vendor.Where(x => x.IsActive == true).ToList(); ;
+            return modelMapper.Map<List<VendorModel>>(assetCategoryItems);
+        }
 
         public AssetModel SaveAsset(AssetModel assetModel)
         {
-            
            return AddAsset(assetModel);           
-           
         }
 
         private AssetModel AddAsset(AssetModel assetModel)
@@ -88,7 +95,6 @@ namespace Repositories.Repository
             assetDetailEntity.WarrantyExpireDate = assetModel.AssetDetail.FirstOrDefault().WarrantyExpireDate;
             assetDetailEntity.WarrantyDocumentId = assetModel.AssetDetail.FirstOrDefault().WarrantyDocumentId;
            
-
             context.Add(assetDetailEntity);
             context.SaveChanges();
             assetModel.AssetDetail.FirstOrDefault().Id = assetDetailEntity.Id;

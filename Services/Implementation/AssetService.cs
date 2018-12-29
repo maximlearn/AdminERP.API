@@ -25,6 +25,16 @@ namespace Services.Implementation
             return this.assetRepository.GetAssetById(assetId);
         }
 
+        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
+        {
+            return this.assetRepository.GetAllAssetCategory();
+        }
+
+        public IEnumerable<VendorModel> GetAllVendor()
+        {
+            return this.assetRepository.GetAllVendor();
+        }
+
         public AssetModel SaveAsset(AssetModel assetModel)
         {
             return this.assetRepository.SaveAsset(assetModel);

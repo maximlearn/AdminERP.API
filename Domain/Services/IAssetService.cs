@@ -10,5 +10,7 @@ namespace Domain.Services
         IEnumerable<AssetModel> GetAllAsset();
         AssetModel GetAssetById(int assetId);
         AssetModel SaveAsset(AssetModel assetModel);
+        IEnumerable<AssetCategoryModel> GetAllAssetCategory();
+        IEnumerable<VendorModel> GetAllVendor();
     }
 }

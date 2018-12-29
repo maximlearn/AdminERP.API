@@ -29,7 +29,22 @@ namespace WebAPI.Controller
         public ActionResult GetAllAsset()
         {
             var result = this.assetService.GetAllAsset();
+            return Ok(result);
+        }
 
+        [HttpGet]
+        [Route("GetAllAssetCategory")]
+        public ActionResult GetAllAssetCategory()
+        {
+            var result = this.assetService.GetAllAssetCategory();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("GetAllVendor")]
+        public ActionResult GetAllVendor()
+        {
+            var result = this.assetService.GetAllVendor();
             return Ok(result);
         }
 
@@ -46,8 +61,7 @@ namespace WebAPI.Controller
         [Route("AddAsset")]
         public ActionResult SaveAsset(AssetModel assetModel)
         {
-            var result = this.assetService.SaveAsset(assetModel);
-           
+            var result = this.assetService.SaveAsset(assetModel);           
             return Ok(result);
         }
 
@@ -60,12 +74,8 @@ namespace WebAPI.Controller
             return Ok();
         }
 
-
-
         private void UploadFiles(IFormFileCollection files)
-        {
-
-            
+        {           
             if (files.Count > 0)
             {
                 foreach (var file in files)
@@ -84,7 +94,6 @@ namespace WebAPI.Controller
                         }
                     }
                     // var filePath = HttpContext.Server.MapPath("~/UploadedFiles/" + postedFile.FileName);
-
 
                 }
             }
