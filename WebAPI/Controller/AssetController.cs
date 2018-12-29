@@ -33,6 +33,15 @@ namespace WebAPI.Controller
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetAsset")]
+        public ActionResult GetAssetById(int assetId)
+        {
+            var result = this.assetService.GetAssetById(assetId);
+
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("AddAsset")]
         public ActionResult SaveAsset(AssetModel assetModel)

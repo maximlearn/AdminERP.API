@@ -8,6 +8,7 @@ namespace Domain.Services
     public interface IAssetService
     {
         IEnumerable<AssetModel> GetAllAsset();
+        AssetModel GetAssetById(int assetId);
         AssetModel SaveAsset(AssetModel assetModel);
     }
 }

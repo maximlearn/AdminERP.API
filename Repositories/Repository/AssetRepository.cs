@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repositories.Repository
 {
@@ -28,21 +29,29 @@ namespace Repositories.Repository
         {
             var context = new AdminERPContext(connectionString);
             var assetItems = context
-   .Asset.Include(x => x.AssetCategory)
-   .Include(x => x.AssetDetail)
-   .ThenInclude(y => y.Vendor);
-   //.SingleOrDefault(x => x.BookId == "some example id")
-  
-          //  var assetItems = context.Asset.Include(x => x.AssetCategory).Include(y => y.AssetDetail.Select(i=>i.Vendor));
-
-            //var assetItems = context.Asset.Select(x => new
-            //{
-            //    AssetCategory = x.AssetCategory,
-            //    AssetDetail = x.AssetDetail,
-            //    Vendor = x.AssetDetail.Select(y=>y.Vendor)
-            //}).ToList();
+                               .Asset.Include(x => x.AssetCategory)
+                               .Include(x => x.AssetDetail)
+                               .ThenInclude(y => y.Vendor);
             return modelMapper.Map<List<AssetModel>>(assetItems);
         }
+
+        public AssetModel GetAssetById(int assetId)
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetItems = context
+                               .Asset.Include(x => x.AssetCategory)
+                               .Include(x => x.AssetDetail)
+                               .ThenInclude(y => y.Vendor)
+                               .Where(p => p.Id == assetId)
+                               .FirstOrDefault();
+            return modelMapper.Map<AssetModel>(assetItems);
+        }
+
+        //public async Task<AssetModel> GetById(int assetId)
+        //{
+        //    var context = new AdminERPContext(connectionString);
+        //    return await context.Asset.Where(p => p.Id == assetId).FirstOrDefaultAsync();
+        //}
 
         public AssetModel SaveAsset(AssetModel assetModel)
         {
