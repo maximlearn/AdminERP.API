@@ -34,6 +34,18 @@ namespace Repositories.Repository
             return modelMapper.Map<List<AssetModel>>(assetItems);
         }
 
+        public AssetModel GetAssetById(int assetId)
+        {
+            var context = new AdminERPContext(connectionString);
+            var assetItems = context
+                               .Asset.Include(x => x.AssetCategory)
+                               .Include(x => x.AssetDetail)
+                               .ThenInclude(y => y.Vendor)
+                               .Where(p => p.Id == assetId)
+                               .FirstOrDefault();
+            return modelMapper.Map<AssetModel>(assetItems);
+        }
+
         public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
         {
             var context = new AdminERPContext(connectionString);

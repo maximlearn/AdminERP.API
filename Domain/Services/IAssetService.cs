@@ -9,6 +9,7 @@ namespace Domain.Services
     {
         IEnumerable<AssetModel> GetAllAsset();
         ResponseMessage SaveAsset(AssetModel assetModel);
+        AssetModel GetAssetById(int assetId);
         IEnumerable<AssetCategoryModel> GetAllAssetCategory();
         IEnumerable<VendorModel> GetAllVendor();
         ResponseMessage IsAssetExist(string AssetTagId);

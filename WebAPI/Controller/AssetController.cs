@@ -97,7 +97,14 @@ namespace WebAPI.Controller
             return Ok(objResponse);
         }
 
+        [HttpGet]
+        [Route("GetAsset")]
+        public ActionResult GetAssetById(int assetId)
+        {
+            var result = this.assetService.GetAssetById(assetId);
 
+            return Ok(result);
+        }
 
         private List<DocumentModel> UploadFiles(IFormFileCollection httpPostedFiles)
         {
