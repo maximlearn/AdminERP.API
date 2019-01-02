@@ -8,8 +8,9 @@ namespace Domain.Repositories
     public interface IAssetRepository
     {
         IEnumerable<AssetModel> GetAllAsset();
-        AssetModel SaveAsset(AssetModel assetModel);
+        ResponseMessage SaveAsset(AssetModel assetModel);
         IEnumerable<AssetCategoryModel> GetAllAssetCategory();
         IEnumerable<VendorModel> GetAllVendor();
+        ResponseMessage IsAssetExist(string AssetTagId);
     }
 }

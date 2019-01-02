@@ -7,5 +7,7 @@ namespace Domain.Interface
    public  interface IConnectionString
     {
          string TargetDatabaseConnectionString { get; }
+        string TargetDocumentDatabaseConnectionString { get; }
+
     }
 }

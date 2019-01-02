@@ -9,6 +9,7 @@ using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebAPI.Controller
 {
@@ -18,10 +19,12 @@ namespace WebAPI.Controller
     public class AssetController : ControllerBase
     {
         public readonly IAssetService assetService;
-        
-        public AssetController(IAssetService _assetService)
+        public readonly IDocumentService documentService;
+
+        public AssetController(IAssetService _assetService, IDocumentService _documentService)
         {
             this.assetService = _assetService;
+            this.documentService = _documentService;
         }
 
         [HttpGet]
@@ -51,45 +54,92 @@ namespace WebAPI.Controller
 
         [HttpPost]
         [Route("AddAsset")]
-        public ActionResult SaveAsset(AssetModel assetModel)
+        // public ActionResult SaveAsset([FromQuery]string assetData)
+        public ActionResult SaveAsset([FromQuery]string assetData)
         {
-            var result = this.assetService.SaveAsset(assetModel);           
-            return Ok(result);
-        }
-
-        [HttpPost]
-        [Route("UploadAssetDocument")]
-        public ActionResult UploadAssetDocument()
-        {
-            var files = Request.Form.Files;
-            UploadFiles(files);
-            return Ok();
-        }
-
-
-
-        private void UploadFiles(IFormFileCollection files)
-        {           
-            if (files.Count > 0)
+            ResponseMessage objResponse = null;
+            try
             {
-                foreach (var file in files)
+                AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
+                objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
+                if (!objResponse.IsExist)
                 {
-                    var postedFile = file;
-                    string fullPath = Path.Combine("/UploadFiles/", postedFile.FileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    List<DocumentModel> documents = null;
+                    if (Request.ContentLength > 0)
                     {
-                        try
-                        {
-                            file.CopyTo(stream);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw ex;
-                        }
+                        var files = Request.Form.Files;
+                        documents = UploadFiles(files);
                     }
-                    // var filePath = HttpContext.Server.MapPath("~/UploadedFiles/" + postedFile.FileName);
+
+                    if (documents != null)
+                    {
+                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+
+                        objResponse = this.assetService.SaveAsset(ObjAssetData);                       
+                    }
+                    else
+                    {
+                        objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                        return BadRequest(objResponse);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                return BadRequest(objResponse);
+
+               // throw; log the error;
+            }
+
+            return Ok(objResponse);
+        }
 
 
+
+        private List<DocumentModel> UploadFiles(IFormFileCollection httpPostedFiles)
+        {
+
+            // return documentService.SaveDocument(files);
+            List<DocumentModel> documents = new List<DocumentModel>();
+            DocumentModel document = null;
+            if (httpPostedFiles.Count > 0)
+            {
+                foreach (var httpPostedFile in httpPostedFiles)
+                {
+                    document = new DocumentModel();
+                    document.DocumentId = Guid.NewGuid().ToString();
+                    document.FileName = httpPostedFile.FileName;
+                    document.FileLable = httpPostedFile.Name;
+                    document.FileImage = ConvertStreamToByteArray(httpPostedFile);
+                    document.DocumentCategory = string.Empty;
+                    document.DocumentNo = string.Empty;
+                    document.Description = string.Empty;
+                    document.Keyword = string.Empty;
+                    document.DocumentType = httpPostedFile.ContentType;
+                    Boolean IsDocumentSaved = this.documentService.SaveDocument(document);
+                    if (IsDocumentSaved)
+                    { documents.Add(document); }
+                }
+            }
+            if (documents.Count == httpPostedFiles.Count)
+                return documents;
+            else
+                return null;
+        }
+
+
+        private byte[] ConvertStreamToByteArray(IFormFile file)
+        {
+            using (var stream = file.OpenReadStream())
+            {
+                var memoryStream = new MemoryStream();
+                stream.CopyTo(memoryStream);
+                using (memoryStream)
+                {
+                    return memoryStream.ToArray();
                 }
             }
         }

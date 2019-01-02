@@ -16,5 +16,9 @@ namespace Domain.Provider
         }
 
         public string TargetDatabaseConnectionString => configuration.GetConnectionString("TargetDatabase");
+
+        public string TargetDocumentDatabaseConnectionString => configuration.GetConnectionString("TargetDocumentDatabse");
+
+
     }
 }

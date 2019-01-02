@@ -44,7 +44,7 @@ namespace WebAPI
             { c.SwaggerDoc("v1", new Info { Title = "AdminERP" }); });
 
             services.AddDbContext<AdminERPContext>(
-                builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
+               builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
           
             services.AddAutoMapper(typeof(Mappings));
             services.AddCors(options =>

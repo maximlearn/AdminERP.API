@@ -6,6 +6,7 @@ using Domain.Provider;
 using Domain.Repositories;
 using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Repositories.DocumentRepository;
 using Repositories.Repository;
 using Services.Implementation;
 using System;
@@ -25,7 +26,9 @@ namespace IoC.Registries
         public static void AddAppService(this IServiceCollection services)
         {
             services.AddTransient<IAssetRepository, AssetRepository>();
-            services.AddTransient<IAssetService, AssetService>();          
+            services.AddTransient<IAssetService, AssetService>();
+            services.AddTransient<IDocumentRepository, DocumentRepository>();
+            services.AddTransient<IDocumentService, DocumentService>();
 
         }
     }

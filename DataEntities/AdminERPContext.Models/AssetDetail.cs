@@ -12,7 +12,8 @@ namespace DataEntities.AdminERPContext.Models
         public int? VendorId { get; set; }
         public decimal? Cost { get; set; }
         public DateTime? WarrantyExpireDate { get; set; }
-        public long? WarrantyDocumentId { get; set; }
+        public string WarrantyDocumentId { get; set; }
+        public string AssetImageId { get; set; }
         public string BrandName { get; set; }
         public string ModelNumber { get; set; }
         public string SerialNumber { get; set; }
