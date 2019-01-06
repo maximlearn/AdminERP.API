@@ -29,6 +29,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAll")]
+        [Produces(typeof(IEnumerable<AssetModel>))]
         public ActionResult GetAllAsset()
         {
             var result = this.assetService.GetAllAsset();
@@ -37,6 +38,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllAssetCategory")]
+        [Produces(typeof(AssetModel))]
         public ActionResult GetAllAssetCategory()
         {
             var result = this.assetService.GetAllAssetCategory();
@@ -99,6 +101,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAsset")]
+        //[Produces(typeof(AssetModel))]
         public ActionResult GetAssetById(int assetId)
         {
             var result = this.assetService.GetAssetById(assetId);
