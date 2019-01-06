@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
+    public class LoginDetails
+    {
+        public string UserId { get; set; }
+        public string Password { get; set; }
+    }
+
     public class UserModel
     {
         public UserModel()
@@ -38,22 +44,12 @@ namespace Domain.Models
         public DateTime CreatedDate { get; set; }
         public int ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public string Token { get; set; }
 
-        //public virtual ICollection<AssetCategory> AssetCategoryCreatedByNavigation { get; set; }
-        //public virtual ICollection<AssetCategory> AssetCategoryModifiedByNavigation { get; set; }
-        //public virtual ICollection<Asset> AssetCreatedByNavigation { get; set; }
-        //public virtual ICollection<AssetGatePass> AssetGatePassCreatedByNavigation { get; set; }
-        //public virtual ICollection<AssetGatePass> AssetGatePassModifiedByNavigation { get; set; }
-        //public virtual ICollection<AssetGatePass> AssetGatePassReceivedByNavigation { get; set; }
-        //public virtual ICollection<Asset> AssetModifiedByNavigation { get; set; }
-        //public virtual ICollection<Company> CompanyCreatedByNavigation { get; set; }
-        //public virtual ICollection<Company> CompanyModifiedByNavigation { get; set; }
-        //public virtual ICollection<Department> DepartmentCreatedByNavigation { get; set; }
-        //public virtual ICollection<Department> DepartmentModifiedByNavigation { get; set; }
-        //public virtual ICollection<Role> RoleCreatedByNavigation { get; set; }
-        //public virtual ICollection<Role> RoleModifiedByNavigation { get; set; }
-        //public virtual ICollection<UserCredential> UserCredential { get; set; }
-        //public virtual ICollection<UserRole> UserRole { get; set; }
-        //public virtual ICollection<UserSecurityAnswer> UserSecurityAnswer { get; set; }
+
+        public virtual ICollection<UserCredentialModel> UserCredential { get; set; }
+        public virtual ICollection<UserRoleModel> UserRole { get; set; }
+        public virtual ICollection<UserSecurityAnswerModel> UserSecurityAnswer { get; set; }
     }
+
 }

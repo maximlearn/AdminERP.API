@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace WebAPI.Controller
 {
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/Asset")]
     [ApiController]
     public class AssetController : ControllerBase
