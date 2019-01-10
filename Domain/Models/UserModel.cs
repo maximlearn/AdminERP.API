@@ -39,6 +39,7 @@ namespace Domain.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public int? DeptId { get; set; }
+        public int RoleId { get; set; }
         public bool? IsActive { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -48,7 +49,7 @@ namespace Domain.Models
 
 
         public virtual ICollection<UserCredentialModel> UserCredential { get; set; }
-        public virtual ICollection<UserRoleModel> UserRole { get; set; }
+      
         public virtual ICollection<UserSecurityAnswerModel> UserSecurityAnswer { get; set; }
     }
 

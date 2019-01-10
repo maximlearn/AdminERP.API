@@ -9,7 +9,7 @@ namespace DataEntities.AdminERPContext.Models
         {
             RoleFunction = new HashSet<RoleFunction>();
             RoleMenu = new HashSet<RoleMenu>();
-            UserRole = new HashSet<UserRole>();
+            User = new HashSet<User>();
         }
 
         public int Id { get; set; }
@@ -22,6 +22,6 @@ namespace DataEntities.AdminERPContext.Models
 
         public virtual ICollection<RoleFunction> RoleFunction { get; set; }
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }
-        public virtual ICollection<UserRole> UserRole { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

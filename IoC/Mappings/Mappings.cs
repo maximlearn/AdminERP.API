@@ -17,7 +17,7 @@ namespace IoC.Mappings
             CreateMap<VendorModel, Vendor>().ReverseMap();
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<UserCredential, UserCredentialModel>().ReverseMap();
-            CreateMap<UserRole, UserRoleModel>().ReverseMap();
+            
             CreateMap<UserSecurityAnswer, UserSecurityAnswerModel>().ReverseMap();
 
         }

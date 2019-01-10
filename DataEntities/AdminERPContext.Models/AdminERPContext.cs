@@ -42,9 +42,10 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<SecurityQuestion> SecurityQuestion { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserCredential> UserCredential { get; set; }
-        public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
+
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -134,6 +135,10 @@ namespace DataEntities.AdminERPContext.Models
 
                 entity.Property(e => e.AssetId).HasColumnName("AssetID");
 
+                entity.Property(e => e.AssetImageId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.BrandName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -151,6 +156,10 @@ namespace DataEntities.AdminERPContext.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.VendorId).HasColumnName("VendorID");
+
+                entity.Property(e => e.WarrantyDocumentId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.WarrantyExpireDate).HasColumnType("date");
 
@@ -528,6 +537,12 @@ namespace DataEntities.AdminERPContext.Models
                     .IsRequired()
                     .HasMaxLength(15)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_User_Role");
             });
 
             modelBuilder.Entity<UserCredential>(entity =>
@@ -551,27 +566,6 @@ namespace DataEntities.AdminERPContext.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserCredential_User");
-            });
-
-            modelBuilder.Entity<UserRole>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserRole)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_Role");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRole)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRole_User1");
             });
 
             modelBuilder.Entity<UserSecurityAnswer>(entity =>

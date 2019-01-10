@@ -7,6 +7,6 @@ namespace Domain.Services
 {
     public interface IUserRoleService
     {
-        IEnumerable<UserRoleModel> GetAll();
+      //  IEnumerable<UserRoleModel> GetAll();
     }
 }

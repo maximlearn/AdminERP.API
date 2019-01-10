@@ -18,5 +18,16 @@ namespace Services.Implementation
         {
             return authRepository.Authenticate(userModel);
         }
+
+        public UserRole GetUserRoleMenuFunctionList(int roleId)
+        {
+            UserRole userRole = new UserRole();
+            userRole.RoleId = roleId;
+            userRole.MenuList= authRepository.GetUserRoleMenuList(roleId);
+            userRole.FunctionList = authRepository.GetUserRoleFunctionList(roleId);
+            return userRole;
+        }
+
+      
     }
 }

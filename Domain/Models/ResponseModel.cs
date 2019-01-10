@@ -9,7 +9,7 @@ namespace Domain.Models
         public Int32 StatusCode { get; set; }
         public String StatusText { get; set; }
         public String Message { get; set; }
-        public Boolean IsSuccess { get; set; }  
+        public Boolean IsSuccess { get; set; }
         public Boolean IsExist { get; set; }
     }
 }
