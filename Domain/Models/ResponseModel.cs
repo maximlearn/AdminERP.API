@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Models
 {
-   public class ResponseMessage
+   public class ResponseModel
     {
         public Int32 StatusCode { get; set; }
         public String StatusText { get; set; }

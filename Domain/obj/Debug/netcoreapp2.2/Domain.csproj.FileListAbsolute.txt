@@ -19,3 +19,6 @@ D:\Genistash\GitHub\AdminERP.API\Domain\obj\Debug\netcoreapp2.2\Domain.AssemblyI
 D:\Genistash\GitHub\AdminERP.API\Domain\obj\Debug\netcoreapp2.2\Domain.dll
 D:\Genistash\GitHub\AdminERP.API\Domain\obj\Debug\netcoreapp2.2\Domain.pdb
 D:\Genistash\GitHub\AdminERP.API\Domain\obj\Debug\netcoreapp2.2\Domain.csprojAssemblyReference.cache
+D:\Genistash\GitHub\AdminERP.API\Domain\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Http.Features.dll
+D:\Genistash\GitHub\AdminERP.API\Domain\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Http.Features.xml
+D:\Genistash\GitHub\AdminERP.API\Domain\obj\Debug\netcoreapp2.2\Domain.csproj.CopyComplete
