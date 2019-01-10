@@ -29,6 +29,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAll")]
+        [Produces(typeof(IEnumerable<AssetModel>))]
         public ActionResult GetAllAsset()
         {
             var result = this.assetService.GetAllAsset();
@@ -37,6 +38,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllAssetCategory")]
+        [Produces(typeof(AssetModel))]
         public ActionResult GetAllAssetCategory()
         {
             var result = this.assetService.GetAllAssetCategory();
@@ -51,41 +53,39 @@ namespace WebAPI.Controller
             return Ok(result);
         }
 
-
         [HttpPost]
         [Route("AddAsset")]
-        // public ActionResult SaveAsset([FromQuery]string assetData)
-        public ActionResult SaveAsset([FromQuery]string assetData)
+        [Produces(typeof(ResponseModel))]
+        public ActionResult SaveAsset(SaveAssetRequestModel ObjAssetData)
         {
-            ResponseMessage objResponse = null;
+            ResponseModel objResponse = null;
             try
             {
-                AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
-                objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
+                //AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
+                
+                objResponse = this.assetService.IsAssetExist(ObjAssetData.assetData.AssetTagId);
                 if (!objResponse.IsExist)
                 {
                     List<DocumentModel> documents = null;
-                    if (Request.ContentLength > 0)
-                    {
-                        var files = Request.Form.Files;
-                        documents = UploadFiles(files);
-                    }
+                    //if (Request.ContentLength > 0)
+                    //{
+                    //    var files = Request.Form.Files;
+                    //    documents = UploadFiles(files);
+                    //}
 
+                    documents = UploadFiles(ObjAssetData.formData);
                     if (documents != null)
                     {
-                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = 
-                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument") != null) ? 
-                                documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId : null;
-                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId =
-                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage") != null) ? 
-                            documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId : null;                                            
+                        ObjAssetData.assetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                        ObjAssetData.assetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+
+                        objResponse = this.assetService.SaveAsset(ObjAssetData.assetData);                       
                     }
-                    objResponse = this.assetService.SaveAsset(ObjAssetData); 
-                    //else
-                    //{
-                    //    objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
-                    //    return BadRequest(objResponse);
-                    //}
+                    else
+                    {
+                        objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                        return BadRequest(objResponse);
+                    }
                 }
 
             }
@@ -102,6 +102,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAsset")]
+        [Produces(typeof(AssetModel))]
         public ActionResult GetAssetById(int assetId)
         {
             var result = this.assetService.GetAssetById(assetId);
@@ -139,7 +140,6 @@ namespace WebAPI.Controller
             else
                 return null;
         }
-
 
         private byte[] ConvertStreamToByteArray(IFormFile file)
         {

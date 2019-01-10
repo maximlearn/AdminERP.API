@@ -35,12 +35,12 @@ namespace Services.Implementation
             return this.assetRepository.GetAllVendor();
         }
 
-        public ResponseMessage IsAssetExist(string AssetTagId)
+        public ResponseModel IsAssetExist(string AssetTagId)
         {
             return this.assetRepository.IsAssetExist(AssetTagId);
         }
 
-        public ResponseMessage SaveAsset(AssetModel assetModel)
+        public ResponseModel SaveAsset(AssetModel assetModel)
         {
             return this.assetRepository.SaveAsset(assetModel);
         }

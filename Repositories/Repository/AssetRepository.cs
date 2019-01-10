@@ -60,9 +60,9 @@ namespace Repositories.Repository
             return modelMapper.Map<List<VendorModel>>(assetCategoryItems);
         }
 
-        public ResponseMessage IsAssetExist(string AssetTagId)
+        public ResponseModel IsAssetExist(string AssetTagId)
         {
-            ResponseMessage objResponse = new ResponseMessage();
+            ResponseModel objResponse = new ResponseModel();
             using (var context = new AdminERPContext(connectionString))
             {
                 if (context.Asset.Any(x => x.AssetTagId == AssetTagId))
@@ -76,16 +76,16 @@ namespace Repositories.Repository
             return objResponse;
         }
   
-        public ResponseMessage SaveAsset(AssetModel assetModel)
+        public ResponseModel SaveAsset(AssetModel assetModel)
         {
             return AddAsset(assetModel);
         }
 
-        private ResponseMessage AddAsset(AssetModel assetModel)
+        private ResponseModel AddAsset(AssetModel assetModel)
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                ResponseMessage objResponse = new ResponseMessage();
+                ResponseModel objResponse = new ResponseModel();
                 try
                 {
                     
