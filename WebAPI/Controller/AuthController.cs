@@ -30,22 +30,23 @@ namespace WebAPI.Controller
             appSettings = _appSettings.Value;
         }
 
+       
+        [HttpGet]
+        [Route("UserRoleMenuFunction")]
+        public IActionResult GetUserRoleMenuFunctions(int  roleId)
+        {
+           var userRole= authService.GetUserRoleMenuFunctionList(roleId);
+            return Ok(userRole);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("Authenticate")]
-        public IActionResult Authenticate(LoginDetails  userLogin)
+        public IActionResult Authenticate(LoginDetails userLogin)
         {
-            //var userModel = new UserModel();
-            //userModel.UserCredential = new List<UserCredentialModel>();
-            //userModel.EmpId = userLogin.UserId;
-            //userModel.UserCredential.FirstOrDefault().Password = userLogin.Password;
-            //  var  userModel1 = JsonConvert.DeserializeObject<UserModel>(userModel);
-
             var user = this.authService.Authenticate(userLogin);
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
-
-           
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -61,10 +62,8 @@ namespace WebAPI.Controller
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             user.Token = tokenHandler.WriteToken(token);
-
             // remove password before returning
             user.UserCredential.FirstOrDefault().Password = null;
-
             return Ok(user);
         }
     }

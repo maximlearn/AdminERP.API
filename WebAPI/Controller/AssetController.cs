@@ -73,16 +73,19 @@ namespace WebAPI.Controller
 
                     if (documents != null)
                     {
-                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
-                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
-
-                        objResponse = this.assetService.SaveAsset(ObjAssetData);                       
+                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = 
+                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument") != null) ? 
+                                documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId : null;
+                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId =
+                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage") != null) ? 
+                            documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId : null;                                            
                     }
-                    else
-                    {
-                        objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
-                        return BadRequest(objResponse);
-                    }
+                    objResponse = this.assetService.SaveAsset(ObjAssetData); 
+                    //else
+                    //{
+                    //    objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                    //    return BadRequest(objResponse);
+                    //}
                 }
 
             }
