@@ -33,6 +33,7 @@ namespace WebAPI.Controller
        
         [HttpGet]
         [Route("UserRoleMenuFunction")]
+        [Produces(typeof(UserRoleModel))]
         public IActionResult GetUserRoleMenuFunctions(int  roleId)
         {
            var userRole= authService.GetUserRoleMenuFunctionList(roleId);
@@ -42,6 +43,7 @@ namespace WebAPI.Controller
         [AllowAnonymous]
         [HttpPost]
         [Route("Authenticate")]
+        [Produces(typeof(UserModel))]
         public IActionResult Authenticate(LoginDetails userLogin)
         {
             var user = this.authService.Authenticate(userLogin);

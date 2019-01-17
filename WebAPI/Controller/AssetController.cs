@@ -38,7 +38,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllAssetCategory")]
-        [Produces(typeof(AssetCategoryModel))]
+        [Produces(typeof(IEnumerable<AssetCategoryModel>))]
         public ActionResult GetAllAssetCategory()
         {
             var result = this.assetService.GetAllAssetCategory();
@@ -47,7 +47,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllVendor")]
-        [Produces(typeof(VendorModel))]
+        [Produces(typeof(IEnumerable<VendorModel>))]
         public ActionResult GetAllVendor()
         {
             var result = this.assetService.GetAllVendor();
