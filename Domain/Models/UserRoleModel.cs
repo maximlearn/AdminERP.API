@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Models
 {
-   public class UserRole
+   public class UserRoleModel
     {
         public int UserId { get; set; }
         public int RoleId { get; set; }

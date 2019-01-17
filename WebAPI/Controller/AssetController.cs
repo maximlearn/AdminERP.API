@@ -38,7 +38,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllAssetCategory")]
-        [Produces(typeof(AssetModel))]
+        [Produces(typeof(AssetCategoryModel))]
         public ActionResult GetAllAssetCategory()
         {
             var result = this.assetService.GetAllAssetCategory();
@@ -47,6 +47,7 @@ namespace WebAPI.Controller
 
         [HttpGet]
         [Route("GetAllVendor")]
+        [Produces(typeof(VendorModel))]
         public ActionResult GetAllVendor()
         {
             var result = this.assetService.GetAllVendor();
@@ -56,14 +57,14 @@ namespace WebAPI.Controller
         [HttpPost]
         [Route("AddAsset")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveAsset(SaveAssetRequestModel ObjAssetData)
+        public ActionResult SaveAsset(AssetModel ObjAssetData)
         {
             ResponseModel objResponse = null;
             try
             {
                 //AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
                 
-                objResponse = this.assetService.IsAssetExist(ObjAssetData.assetData.AssetTagId);
+                objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
                 if (!objResponse.IsExist)
                 {
                     List<DocumentModel> documents = null;
@@ -73,13 +74,13 @@ namespace WebAPI.Controller
                     //    documents = UploadFiles(files);
                     //}
 
-                    documents = UploadFiles(ObjAssetData.formData);
+                   // documents = UploadFiles(ObjAssetData.formData);
                     if (documents != null)
                     {
-                        ObjAssetData.assetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
-                        ObjAssetData.assetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
 
-                        objResponse = this.assetService.SaveAsset(ObjAssetData.assetData);                       
+                        objResponse = this.assetService.SaveAsset(ObjAssetData);                       
                     }
                     else
                     {
