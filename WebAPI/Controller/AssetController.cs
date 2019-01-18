@@ -57,38 +57,33 @@ namespace WebAPI.Controller
         [HttpPost]
         [Route("AddAsset")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveAsset(AssetModel ObjAssetData)
+        public ActionResult SaveAsset([FromQuery]string assetData)
         {
             ResponseModel objResponse = null;
             try
             {
-                //AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
-                
+                AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
                 objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
                 if (!objResponse.IsExist)
                 {
                     List<DocumentModel> documents = null;
-                    //if (Request.ContentLength > 0)
-                    //{
-                    //    var files = Request.Form.Files;
-                    //    documents = UploadFiles(files);
-                    //}
+                    if (Request.ContentLength > 0)
+                    {
+                        var files = Request.Form.Files;
+                        documents = UploadFiles(files);
+                    }
 
-                   // documents = UploadFiles(ObjAssetData.formData);
                     if (documents != null)
                     {
-                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
-                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
-
-                        objResponse = this.assetService.SaveAsset(ObjAssetData);                       
+                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = 
+                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument")) == null ? null : 
+                            documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = 
+                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage")==null) ? null 
+                            : documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
                     }
-                    else
-                    {
-                        objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
-                        return BadRequest(objResponse);
-                    }
+                    objResponse = this.assetService.SaveAsset(ObjAssetData);
                 }
-
             }
             catch (Exception ex)
             {
