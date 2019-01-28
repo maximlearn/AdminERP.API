@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DataEntities.AdminERPContext.Models
 {
-    //Scaffolding command to be run on Package Manager Console
-    //Scaffold-DbContext -Connection "Server=(local);Database=AdminERP;Integrated Security=True;Trusted_Connection=True;" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir AdminERPContext.Models -context AdminERPContext -Project DataEntities -force
-
     public partial class AdminERPContext : DbContext, ITargetDbContext
     {
+        //Scaffolding command to be run on Package Manager Console
+        //Scaffold-DbContext -Connection "Server=Win10Dev\WINDEVSQL;Database=AdminERP;Integrated Security=True;Trusted_Connection=True;" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir AdminERPContext.Models -context AdminERPContext -Project DataEntities -force
+
         private readonly IConnectionString connectionString;
 
         public AdminERPContext(IConnectionString _connectionString)
@@ -33,19 +33,20 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<Function> Function { get; set; }
-        public virtual DbSet<GatePassStatus> GatePassStatus { get; set; }
+        public virtual DbSet<GatePassType> GatePassType { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<QuantityUnit> QuantityUnit { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RoleFunction> RoleFunction { get; set; }
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestion { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserCredential> UserCredential { get; set; }
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
-      
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -188,8 +189,6 @@ namespace DataEntities.AdminERPContext.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.GatePassStatusId).HasColumnName("GatePassStatusID");
-
                 entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Remarks)
@@ -205,8 +204,13 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.GatePassStatus)
                     .WithMany(p => p.AssetGatePass)
                     .HasForeignKey(d => d.GatePassStatusId)
+                    .HasConstraintName("FK_AssetGatePass_Status");
+
+                entity.HasOne(d => d.GatePassType)
+                    .WithMany(p => p.AssetGatePass)
+                    .HasForeignKey(d => d.GatePassTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AssetGatePass_GatePassStatus");
+                    .HasConstraintName("FK_AssetGatePass_Type");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.AssetGatePassModifiedByNavigation)
@@ -228,6 +232,8 @@ namespace DataEntities.AdminERPContext.Models
 
                 entity.Property(e => e.AssetId).HasColumnName("AssetID");
 
+                entity.Property(e => e.AssetTypeId).HasColumnName("AssetTypeID");
+
                 entity.Property(e => e.ReceivedQty).HasColumnType("decimal(18, 3)");
 
                 entity.Property(e => e.ReceivedQtyUnitId).HasColumnName("ReceivedQtyUnitID");
@@ -245,6 +251,11 @@ namespace DataEntities.AdminERPContext.Models
                     .WithMany(p => p.AssetGatePassDetail)
                     .HasForeignKey(d => d.AssetId)
                     .HasConstraintName("FK_AssetGatePassDetail_Asset");
+
+                entity.HasOne(d => d.AssetType)
+                    .WithMany(p => p.AssetGatePassDetail)
+                    .HasForeignKey(d => d.AssetTypeId)
+                    .HasConstraintName("FK_AssetGatePassDetail_GatePassStatus");
 
                 entity.HasOne(d => d.ReceivedQtyUnit)
                     .WithMany(p => p.AssetGatePassDetailReceivedQtyUnit)
@@ -387,13 +398,12 @@ namespace DataEntities.AdminERPContext.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<GatePassStatus>(entity =>
+            modelBuilder.Entity<GatePassType>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.GatePassStatus1)
-                    .HasColumnName("GatePassStatus")
-                    .HasMaxLength(50)
+                entity.Property(e => e.TypeName)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 
@@ -496,6 +506,15 @@ namespace DataEntities.AdminERPContext.Models
                 entity.Property(e => e.Question)
                     .IsRequired()
                     .HasMaxLength(300)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Status>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.StatusName)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

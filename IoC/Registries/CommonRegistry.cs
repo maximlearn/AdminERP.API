@@ -31,6 +31,9 @@ namespace IoC.Registries
             services.AddTransient<IDocumentService, DocumentService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<IAssetGatePassService, AssetGatePassService>();
+            services.AddTransient<IAssetGatePassRepository, AssetGatePassRepository>();
+
 
         }
     }

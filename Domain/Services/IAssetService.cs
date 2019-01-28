@@ -13,5 +13,6 @@ namespace Domain.Services
         IEnumerable<AssetCategoryModel> GetAllAssetCategory();
         IEnumerable<VendorModel> GetAllVendor();
         ResponseModel IsAssetExist(string AssetTagId);
+        IEnumerable<AssetModel> GetAllAssetTag();
     }
 }

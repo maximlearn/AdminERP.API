@@ -44,5 +44,10 @@ namespace Services.Implementation
         {
             return this.assetRepository.SaveAsset(assetModel);
         }
+
+        public IEnumerable<AssetModel> GetAllAssetTag()
+        {
+            return this.assetRepository.GetAllAssetTag();
+        }
     }
 }

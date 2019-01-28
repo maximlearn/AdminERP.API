@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class GatePassStatusModel
+    public class StatusModel
     {
-        public GatePassStatusModel()
+        public StatusModel()
         {
 
         }
 
         public int Id { get; set; }
-        public string GatePassStatus1 { get; set; }
+        public string StatusName { get; set; }
 
         //public virtual ICollection<AssetGatePass> AssetGatePass { get; set; }
     }

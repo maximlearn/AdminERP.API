@@ -12,11 +12,11 @@ namespace Domain.Models
         public int? SendQtyUnitId { get; set; }
         public decimal? ReceivedQty { get; set; }
         public int? ReceivedQtyUnitId { get; set; }
-        public bool? IsReturnable { get; set; }
+        public int? AssetTypeId { get; set; }
 
-        //public virtual Asset Asset { get; set; }
-        //public virtual AssetGatePass AssetGatePass { get; set; }
-        //public virtual QuantityUnit ReceivedQtyUnit { get; set; }
-        //public virtual QuantityUnit SendQtyUnit { get; set; }
+        public virtual AssetModel Asset { get; set; }      
+        public virtual GatePassTypeModel AssetType { get; set; }
+        public virtual QuantityUnitModel ReceivedQtyUnit { get; set; }
+        public virtual QuantityUnitModel SendQtyUnit { get; set; }
     }
 }

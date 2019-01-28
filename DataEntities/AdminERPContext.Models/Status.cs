@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace DataEntities.AdminERPContext.Models
 {
-    public partial class GatePassStatus
+    public partial class Status
     {
-        public GatePassStatus()
+        public Status()
         {
             AssetGatePass = new HashSet<AssetGatePass>();
         }
 
         public int Id { get; set; }
-        public string GatePassStatus1 { get; set; }
+        public string StatusName { get; set; }
 
         public virtual ICollection<AssetGatePass> AssetGatePass { get; set; }
     }

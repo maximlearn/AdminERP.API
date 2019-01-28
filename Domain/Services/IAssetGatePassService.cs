@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Repositories
+namespace Domain.Services
 {
-    public interface IAssetGatePassRepository
+  public interface IAssetGatePassService
     {
         IEnumerable<AssetGatePassModel> GetAllAssetGatePassList();
         IEnumerable<GatePassTypeModel> GetAllGatePassType();
@@ -13,6 +13,6 @@ namespace Domain.Repositories
         AssetGatePassModel GetGatePassDetailById(int assetGatePassId);
         IEnumerable<QuantityUnitModel> GetAllUnit();
         ResponseModel DeleteAssetGatePass(int gatePassId);
-
+        
     }
 }

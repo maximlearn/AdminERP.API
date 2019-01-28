@@ -37,6 +37,15 @@ namespace WebAPI.Controller
         }
 
         [HttpGet]
+        [Route("GetAllAssetTag")]
+        [Produces(typeof(IEnumerable<AssetModel>))]
+        public ActionResult GetAllAssetTag()
+        {
+            var result = this.assetService.GetAllAssetTag();
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("GetAllAssetCategory")]
         [Produces(typeof(IEnumerable<AssetCategoryModel>))]
         public ActionResult GetAllAssetCategory()

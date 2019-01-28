@@ -13,6 +13,7 @@ namespace Domain.Repositories
         IEnumerable<AssetCategoryModel> GetAllAssetCategory();
         IEnumerable<VendorModel> GetAllVendor();
         ResponseModel IsAssetExist(string AssetTagId);
+        IEnumerable<AssetModel> GetAllAssetTag();
 
     }
 }
