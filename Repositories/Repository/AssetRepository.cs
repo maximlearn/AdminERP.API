@@ -187,8 +187,7 @@ namespace Repositories.Repository
             }
 
         }
-    }
-}
+
         public IEnumerable<AssetModel> GetAllAssetTag()
         {
             using (var context = new AdminERPContext(connectionString))
@@ -196,15 +195,15 @@ namespace Repositories.Repository
                 var assetTagList = context.Asset
                     .Select(p => new Asset()
                     {
-                        Id = p.Id ,
+                        Id = p.Id,
                         AssetTagId = p.AssetTagId,
                         AssetName = p.AssetName,
-                        CreatedDate= p.CreatedDate,
-                        ModifiedDate= p.ModifiedDate,
-                        AssetDetail =  p.AssetDetail.Where(x=> x.AssetId==p.Id).ToList()
+                        CreatedDate = p.CreatedDate,
+                        ModifiedDate = p.ModifiedDate,
+                        AssetDetail = p.AssetDetail.Where(x => x.AssetId == p.Id).ToList()
                     }).ToList();
 
-                return  modelMapper.Map<IEnumerable<AssetModel>>(assetTagList);
+                return modelMapper.Map<IEnumerable<AssetModel>>(assetTagList);
             }
         }
     }
