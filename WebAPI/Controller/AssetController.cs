@@ -105,6 +105,49 @@ namespace WebAPI.Controller
             return Ok(objResponse);
         }
 
+        [HttpPost]
+        [Route("UpdateAsset")]
+        [Produces(typeof(ResponseModel))]
+        public ActionResult UpdateAsset([FromQuery]string assetData)
+        {
+            ResponseModel objResponse = null;
+            try
+            {
+                AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
+                //objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
+                //if (!objResponse.IsExist)
+                {
+                    List<DocumentModel> documents = null;
+                    if (Request.ContentLength > 0)
+                    {
+                        var files = Request.Form.Files;
+                        documents = UploadFiles(files);
+                    }
+
+                    if (documents != null)
+                    {
+                        ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId =
+                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument")) == null ? null :
+                            documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                        ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId =
+                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage") == null) ? null
+                            : documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+                    }
+                    objResponse = this.assetService.SaveAsset(ObjAssetData);
+                }
+            }
+            catch (Exception ex)
+            {
+                objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                return BadRequest(objResponse);
+
+                // throw; log the error;
+            }
+
+            return Ok(objResponse);
+        }
+
+
         [HttpGet]
         [Route("GetAsset")]
         [Produces(typeof(AssetModel))]

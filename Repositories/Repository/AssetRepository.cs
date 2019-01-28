@@ -86,7 +86,7 @@ namespace Repositories.Repository
 
         public ResponseModel SaveAsset(AssetModel assetModel)
         {
-            return AddAsset(assetModel);
+            return assetModel.Id==0 ? AddAsset(assetModel) : UpdateAsset(assetModel);
         }
 
         private ResponseModel AddAsset(AssetModel assetModel)
@@ -139,6 +139,56 @@ namespace Repositories.Repository
 
         }
 
+        private ResponseModel UpdateAsset(AssetModel assetModel)
+        {
+            using (var context = new AdminERPContext(connectionString))
+            {
+                var objResponse = new ResponseModel();
+                try
+                {
+                    var assetEntity = new Asset();
+                    assetEntity.AssetTagId = assetModel.AssetTagId;
+                    assetEntity.AssetCategoryId = assetModel.AssetCategoryId;
+                    assetEntity.AssetName = assetModel.AssetName;
+                    assetEntity.AssetDescription = assetModel.AssetDescription;
+                    assetEntity.CreatedBy = 1;
+                    assetEntity.CreatedDate = DateTime.Now;
+                    assetEntity.ModifiedBy = 1;
+                    assetEntity.ModifiedDate = DateTime.Now;
+                    assetEntity.IsActive = true;
+                    assetEntity.Id = assetModel.Id;
+                    context.Update(assetEntity);
+                    context.SaveChanges();
+                    var assetDetailEntity = new AssetDetail();
+                    assetDetailEntity.AssetId = assetModel.Id;
+                    assetDetailEntity.Id = assetModel.AssetDetail.FirstOrDefault().Id;
+                    assetDetailEntity.BrandName = assetModel.AssetDetail.FirstOrDefault().BrandName;
+                    assetDetailEntity.ModelNumber = assetModel.AssetDetail.FirstOrDefault().ModelNumber;
+                    assetDetailEntity.SerialNumber = assetModel.AssetDetail.FirstOrDefault().SerialNumber;
+                    assetDetailEntity.Cost = assetModel.AssetDetail.FirstOrDefault().Cost;
+                    assetDetailEntity.VendorId = (assetModel.AssetDetail.FirstOrDefault().VendorId != 0) ? assetModel.AssetDetail.FirstOrDefault().VendorId : null;
+                    assetDetailEntity.PurchaseDate = assetModel.AssetDetail.FirstOrDefault().PurchaseDate; ;
+                    assetDetailEntity.WarrantyExpireDate = assetModel.AssetDetail.FirstOrDefault().WarrantyExpireDate;
+                    assetDetailEntity.WarrantyDocumentId = assetModel.AssetDetail.FirstOrDefault().WarrantyDocumentId;
+                    assetDetailEntity.AssetImageId = assetModel.AssetDetail.FirstOrDefault().AssetImageId;
+                    context.Update(assetDetailEntity);
+                    context.SaveChanges();
+                    //assetModel.AssetDetail.FirstOrDefault().Id = assetDetailEntity.Id;
+                    //assetModel.AssetDetail.FirstOrDefault().AssetId = assetModel.Id;
+                    objResponse.Message = "Asset updated successfully.";
+                    objResponse.IsSuccess = true;
+                }
+                catch (Exception ex)
+                {
+                    objResponse.Message = ex.Message;
+                    objResponse.IsSuccess = false;
+                }
+                return objResponse;
+            }
+
+        }
+    }
+}
         public IEnumerable<AssetModel> GetAllAssetTag()
         {
             using (var context = new AdminERPContext(connectionString))
