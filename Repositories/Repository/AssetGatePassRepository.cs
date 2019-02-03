@@ -57,6 +57,7 @@ namespace Repositories.Repository
             }
         }
 
+       
         public AssetGatePassModel GetGatePassDetailById(int gatePassId)
         {
             using (var context = new AdminERPContext(connectionString))
@@ -77,7 +78,7 @@ namespace Repositories.Repository
                        ModifiedDate = p.ModifiedDate,
                        ReceivedByNavigation = p.ReceivedByNavigation,
                        CreatedByNavigation = p.CreatedByNavigation,
-                       AssetGatePassDetail = p.AssetGatePassDetail.Where(x => x.AssetGatePassId == p.Id)
+                       AssetGatePassDetail = p.AssetGatePassDetail.Where(x => x.AssetGatePassId == gatePassId)
                        .Select(t => new AssetGatePassDetail()
                        {
                            Id = t.Id,
@@ -103,7 +104,7 @@ namespace Repositories.Repository
                            SendQtyUnit = t.SendQtyUnit
                        }
                        ).ToList(),
-                       AssetGatePassSenderDetail = p.AssetGatePassSenderDetail.Where(x => x.AssetGatePassId == p.Id).ToList()
+                       AssetGatePassSenderDetail = p.AssetGatePassSenderDetail.Where(x => x.AssetGatePassId == gatePassId).ToList()
 
                    }).FirstOrDefault();
                 var gatePassDetailModel = modelMapper.Map<AssetGatePassModel>(gatePassDetail);
@@ -151,7 +152,7 @@ namespace Repositories.Repository
                     var statusList = context.Status.ToList();
 
                     AssetGatePass gatePassEntity = new AssetGatePass();
-                    gatePassEntity.Id = assetGatePassModel.Id;
+                    
                     gatePassEntity.GatePassNo = assetGatePassModel.GatePassNo;
                     gatePassEntity.GatePassDate = assetGatePassModel.GatePassDate;
                     gatePassEntity.GatePassTypeId = assetGatePassModel.GatePassTypeId;
@@ -164,9 +165,14 @@ namespace Repositories.Repository
                     gatePassEntity.IsActive = true;
                     gatePassEntity.Remarks = assetGatePassModel.Remarks;
                     if (assetGatePassModel.Id == 0)
-                    { context.Add(gatePassEntity); }
+                    {
+                        context.Add(gatePassEntity);
+                    }
                     else
-                    { context.Update(gatePassEntity); }
+                    {
+                        gatePassEntity.Id = assetGatePassModel.Id;
+                        context.Update(gatePassEntity);
+                    }
 
                     context.SaveChanges();
 
@@ -187,7 +193,7 @@ namespace Repositories.Repository
                         context.SaveChanges();
                     }
 
-                    AssetGatePassSenderDetail gatePassSenderDetail = new AssetGatePassSenderDetail();
+                    AssetGatePassSenderDetail gatePassSenderDetail = new AssetGatePassSenderDetail();                   
                     gatePassSenderDetail.AssetGatePassId = gatePassId;
                     gatePassSenderDetail.Name = assetGatePassModel.AssetGatePassSenderDetail.FirstOrDefault().Name;
                     gatePassSenderDetail.Phone = assetGatePassModel.AssetGatePassSenderDetail.FirstOrDefault().Phone;
@@ -201,6 +207,7 @@ namespace Repositories.Repository
                     }
                     else
                     {
+                        gatePassSenderDetail.Id = assetGatePassModel.AssetGatePassSenderDetail.FirstOrDefault().Id;
                         context.Update(gatePassSenderDetail);
                         objResponse.Message = "Gate Pass Updated successfully.";
                     }

@@ -8,5 +8,6 @@ namespace Domain.Services
    public interface IDocumentService
     {
         Boolean SaveDocument(DocumentModel document);
+        DocumentModel GetDocumentById(string documentId);
     }
 }

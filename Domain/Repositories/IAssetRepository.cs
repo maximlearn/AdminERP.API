@@ -9,10 +9,11 @@ namespace Domain.Repositories
     {
         IEnumerable<AssetModel> GetAllAsset();
         ResponseModel SaveAsset(AssetModel assetModel);
+        ResponseModel DeleteAsset(int assetId);
         AssetModel GetAssetById(int assetId);
         IEnumerable<AssetCategoryModel> GetAllAssetCategory();
         IEnumerable<VendorModel> GetAllVendor();
-        ResponseModel IsAssetExist(string AssetTagId);
+        ResponseModel IsAssetExist(AssetModel asset);
         IEnumerable<AssetModel> GetAllAssetTag();
 
     }

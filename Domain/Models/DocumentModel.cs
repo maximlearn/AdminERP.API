@@ -8,7 +8,7 @@ namespace Domain.Models
     {
         public string FileName { get; set; }
         public string FileType { get; set; }
-        public string FileLable { get; set; }
+        public string FileLabel { get; set; }
         public string DocumentType { get; set; }
         public string DocumentId { get; set; }
         public string DocumentNo { get; set; }

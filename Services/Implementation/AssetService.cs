@@ -35,9 +35,9 @@ namespace Services.Implementation
             return this.assetRepository.GetAllVendor();
         }
 
-        public ResponseModel IsAssetExist(string AssetTagId)
+        public ResponseModel IsAssetExist(AssetModel asset)
         {
-            return this.assetRepository.IsAssetExist(AssetTagId);
+            return this.assetRepository.IsAssetExist(asset);
         }
 
         public ResponseModel SaveAsset(AssetModel assetModel)
@@ -48,6 +48,11 @@ namespace Services.Implementation
         public IEnumerable<AssetModel> GetAllAssetTag()
         {
             return this.assetRepository.GetAllAssetTag();
+        }
+
+        public ResponseModel DeleteAsset(int assetId)
+        {
+            return this.assetRepository.DeleteAsset(assetId);
         }
     }
 }

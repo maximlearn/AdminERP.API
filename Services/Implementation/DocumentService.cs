@@ -14,6 +14,12 @@ namespace Services.Implementation
         {
             documentRepository = _documentRepository;
         }
+
+        public DocumentModel GetDocumentById(string documentId)
+        {
+            return documentRepository.GetDocumentById(documentId);
+        }
+
         public Boolean SaveDocument(DocumentModel document)
         {
             return documentRepository.SaveDocument(document);

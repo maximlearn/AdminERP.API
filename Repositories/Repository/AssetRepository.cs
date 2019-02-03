@@ -28,10 +28,24 @@ namespace Repositories.Repository
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                var assetItems = context
-                                    .Asset.Include(x => x.AssetCategory)
-                                    .Include(x => x.AssetDetail)
-                                    .ThenInclude(y => y.Vendor);
+                var assetItems = context.Asset
+                   .Select(p => new Asset()
+                   {
+                       Id = p.Id,
+                       AssetTagId = p.AssetTagId,
+                       AssetName = p.AssetName,
+                       CreatedDate = p.CreatedDate,
+                       ModifiedDate = p.ModifiedDate,
+                       AssetCategory = p.AssetCategory,
+                       AssetCategoryId = p.AssetCategoryId,
+                       AssetDescription = p.AssetDescription,                       
+                       AssetDetail = p.AssetDetail.Where(x => x.AssetId == p.Id).ToList()
+                   }).ToList();
+
+                //var assetItems = context
+                //                    .Asset.Include(x => x.AssetCategory)
+                //                    .Include(x => x.AssetDetail)
+                //                    .ThenInclude(y => y.Vendor);
                 return modelMapper.Map<List<AssetModel>>(assetItems);
             }
         }
@@ -68,16 +82,28 @@ namespace Repositories.Repository
             }
         }
 
-        public ResponseModel IsAssetExist(string AssetTagId)
+        public ResponseModel IsAssetExist(AssetModel asset)
         {
             ResponseModel objResponse = new ResponseModel();
             using (var context = new AdminERPContext(connectionString))
             {
-                if (context.Asset.Any(x => x.AssetTagId == AssetTagId))
+                if (asset.Id == 0)
                 {
-                    objResponse.IsExist = true;
-                    objResponse.IsSuccess = false;
-                    objResponse.Message = "Asset Tag Id: " + AssetTagId + " is already exist in the system.";
+                    if (context.Asset.Any(x => x.AssetTagId == asset.AssetTagId))
+                    {
+                        objResponse.IsExist = true;
+                        objResponse.IsSuccess = false;
+                        objResponse.Message = "Asset Tag Id: " + asset.AssetTagId + " is already exist in the system.";
+                    }
+                }
+                else if (asset.Id > 0)
+                {
+                    if (context.Asset.Any(x => (x.Id != asset.Id) && (x.AssetTagId == asset.AssetTagId)))
+                    {
+                        objResponse.IsExist = true;
+                        objResponse.IsSuccess = false;
+                        objResponse.Message = "Asset Tag Id: " + asset.AssetTagId + " is already exist in the system.";
+                    }
                 }
             }
 
@@ -86,7 +112,7 @@ namespace Repositories.Repository
 
         public ResponseModel SaveAsset(AssetModel assetModel)
         {
-            return assetModel.Id==0 ? AddAsset(assetModel) : UpdateAsset(assetModel);
+            return assetModel.Id == 0 ? AddAsset(assetModel) : UpdateAsset(assetModel);
         }
 
         private ResponseModel AddAsset(AssetModel assetModel)
@@ -204,6 +230,39 @@ namespace Repositories.Repository
                     }).ToList();
 
                 return modelMapper.Map<IEnumerable<AssetModel>>(assetTagList);
+            }
+        }
+
+        public ResponseModel DeleteAsset(int assetId)
+        {
+            using (var context = new AdminERPContext(connectionString))
+
+            {
+                ResponseModel objResponse = new ResponseModel();
+                try
+                {
+                    var assetDetail = context.AssetDetail.Where(x => x.AssetId == assetId).FirstOrDefault();
+                    if (assetDetail != null)
+                    {
+                        context.Remove<AssetDetail>(assetDetail);
+                        context.SaveChanges();
+                    }
+                    var asset = context.Asset.Where(x => x.Id == assetId).FirstOrDefault();
+                    if (asset != null)
+                    {
+                        context.Remove<Asset>(asset);
+                        context.SaveChanges();
+                    }
+                    objResponse.Message = "Gate Pass Deleted successfully.";
+                    objResponse.IsSuccess = true;
+                }
+                catch (Exception ex)
+                {
+                    objResponse.Message = ex.Message;
+                    objResponse.IsSuccess = false;
+                }
+
+                return objResponse;
             }
         }
     }

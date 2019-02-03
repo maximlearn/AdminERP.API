@@ -51,6 +51,21 @@ namespace WebAPI.Controller
         }
 
         [HttpGet]
+        [Route("GetBlankGatePassDetail")]
+        [Produces(typeof(AssetGatePassDetailModel))]
+        public ActionResult GetBlankGatePassDetail()
+        {
+            var gatePassDetail = new AssetGatePassDetailModel() {
+                AssetTypeId = -101,
+                SendQtyUnitId = -101,
+                Asset = new AssetModel() {
+                    AssetDetail = new List<AssetDetailModel>() { new AssetDetailModel() } 
+            } 
+            };
+            return Ok(gatePassDetail);
+        }
+
+        [HttpGet]
         [Route("GetGatePassById")]
         [Produces(typeof(AssetGatePassModel))]
         public ActionResult GetGatePassDetailById(int gatePassId)
@@ -68,6 +83,8 @@ namespace WebAPI.Controller
             var result = this.assetGatePassService.SaveAssetGatePass(assetGatePassModel);
             return Ok(result);
         }
+
+       
 
         [HttpPost]
         [Route("DeleteAssetGatePass")]

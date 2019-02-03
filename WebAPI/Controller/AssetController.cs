@@ -72,7 +72,7 @@ namespace WebAPI.Controller
             try
             {
                 AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
-                objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
+                objResponse = this.assetService.IsAssetExist(ObjAssetData);
                 if (!objResponse.IsExist)
                 {
                     List<DocumentModel> documents = null;
@@ -85,11 +85,11 @@ namespace WebAPI.Controller
                     if (documents != null)
                     {
                         ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId = 
-                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument")) == null ? null : 
-                            documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                            (documents.FirstOrDefault(x => x.FileLabel == "WarrantyDocument")) == null ? null : 
+                            documents.FirstOrDefault(x => x.FileLabel == "WarrantyDocument").DocumentId;
                         ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId = 
-                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage")==null) ? null 
-                            : documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+                            (documents.FirstOrDefault(x => x.FileLabel == "AssetImage")==null) ? null 
+                            : documents.FirstOrDefault(x => x.FileLabel == "AssetImage").DocumentId;
                     }
                     objResponse = this.assetService.SaveAsset(ObjAssetData);
                 }
@@ -114,8 +114,8 @@ namespace WebAPI.Controller
             try
             {
                 AssetModel ObjAssetData = JsonConvert.DeserializeObject<AssetModel>(assetData);
-                //objResponse = this.assetService.IsAssetExist(ObjAssetData.AssetTagId);
-                //if (!objResponse.IsExist)
+                objResponse = this.assetService.IsAssetExist(ObjAssetData);
+                if (!objResponse.IsExist)
                 {
                     List<DocumentModel> documents = null;
                     if (Request.ContentLength > 0)
@@ -127,11 +127,11 @@ namespace WebAPI.Controller
                     if (documents != null)
                     {
                         ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId =
-                            (documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument")) == null ? null :
-                            documents.FirstOrDefault(x => x.FileLable == "WarrantyDocument").DocumentId;
+                            (documents.FirstOrDefault(x => x.FileLabel == "WarrantyDocument")) == null ? ObjAssetData.AssetDetail.FirstOrDefault().WarrantyDocumentId :
+                            documents.FirstOrDefault(x => x.FileLabel == "WarrantyDocument").DocumentId;
                         ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId =
-                            (documents.FirstOrDefault(x => x.FileLable == "AssetImage") == null) ? null
-                            : documents.FirstOrDefault(x => x.FileLable == "AssetImage").DocumentId;
+                            (documents.FirstOrDefault(x => x.FileLabel == "AssetImage") == null) ? ObjAssetData.AssetDetail.FirstOrDefault().AssetImageId
+                            : documents.FirstOrDefault(x => x.FileLabel == "AssetImage").DocumentId;
                     }
                     objResponse = this.assetService.SaveAsset(ObjAssetData);
                 }
@@ -147,16 +147,56 @@ namespace WebAPI.Controller
             return Ok(objResponse);
         }
 
+        [HttpPost]
+        [Route("DeleteAsset")]
+        [Produces(typeof(ResponseModel))]
+        public ActionResult DeleteAsset(int assetId)
+        {
+            //  AssetGatePassModel ObjAssetData = JsonConvert.DeserializeObject<AssetGatePassModel>(assetGatePassModel);
+            var result = this.assetService.DeleteAsset(assetId);
+            return Ok(result);
+        }
+
 
         [HttpGet]
         [Route("GetAsset")]
         [Produces(typeof(AssetModel))]
         public ActionResult GetAssetById(int assetId)
         {
-            var result = this.assetService.GetAssetById(assetId);
-
+            var result = this.assetService.GetAssetById(assetId);            
+            var assetImageId = result.AssetDetail.FirstOrDefault().AssetImageId;
+            var warrantyDocumentId = result.AssetDetail.FirstOrDefault().WarrantyDocumentId;
+            List<string> listDocumentId = new List<string>();         
+            if (!string.IsNullOrWhiteSpace(assetImageId)) {
+                result.DocumentList = new List<DocumentModel>();
+                result.DocumentList.Add(this.documentService.GetDocumentById(assetImageId));
+            }
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("DownloadDocument")]
+        [Produces(typeof(DocumentModel))]
+        public ActionResult DownloadDocument(string documentId)
+        {
+           
+            var result = this.documentService.GetDocumentById(documentId);
+            return Ok(result);
+        }
+
+
+
+        //[HttpGet]
+        //[Route("GetDocumentById")]
+        //[Produces(typeof(IEnumerable<DocumentModel>))]
+        //public ActionResult GetDocumentById(List<string>  listDocumentId)
+        //{
+        //    var result = this.documentService.GetDocumentById(listDocumentId);
+
+        //    return Ok(result);
+        //}
+
+
 
         private List<DocumentModel> UploadFiles(IFormFileCollection httpPostedFiles)
         {
@@ -171,11 +211,11 @@ namespace WebAPI.Controller
                     document = new DocumentModel();
                     document.DocumentId = Guid.NewGuid().ToString();
                     document.FileName = httpPostedFile.FileName;
-                    document.FileLable = httpPostedFile.Name;
+                    document.FileLabel = httpPostedFile.Name;
                     document.FileImage = ConvertStreamToByteArray(httpPostedFile);
                     document.DocumentCategory = string.Empty;
                     document.DocumentNo = string.Empty;
-                    document.Description = string.Empty;
+                    document.Description = httpPostedFile.Name;
                     document.Keyword = string.Empty;
                     document.DocumentType = httpPostedFile.ContentType;
                     Boolean IsDocumentSaved = this.documentService.SaveDocument(document);

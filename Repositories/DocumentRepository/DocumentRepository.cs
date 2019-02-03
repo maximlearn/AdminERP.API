@@ -3,8 +3,10 @@ using Domain.Models;
 using Domain.Repositories;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -98,7 +100,83 @@ namespace Repositories.DocumentRepository
 
         }
 
-     
+
+        public DocumentModel GetDocumentById(string documentId)
+        {
+
+            //DataSet dsResult = new DataSet();
+            //dsResult.Tables.Add("DataSet");
+            DocumentModel documentModel = new DocumentModel();
+           
+            try
+            {
+                //bool rtbndeleted = false;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(this.connectionString.TargetDocumentDatabaseConnectionString + "/" + documentId);
+               // (HttpWebRequest)WebRequest.Create(strCouchDBUri + "/" + strCouchDBName + "/" + param.ExternalDocumentId);
+                request.ContentType = "application/json";
+                request.Method = "get";
+                var responseString = "";
+                if (!string.IsNullOrWhiteSpace(documentId))
+                {
+                  //  dsResult.Tables[0].Columns.Add("FileName");
+                   // dsResult.Tables[0].Columns.Add("FileType");
+                   // dsResult.Tables[0].Columns.Add("FileImage", typeof(byte[]));
+
+                    var response = (HttpWebResponse)request.GetResponse();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+                        var Json = responseString;
+                        JObject jsonResponse = JObject.Parse(responseString);
+                        JObject objResponse = JObject.Parse(jsonResponse["_attachments"].ToString());
+                        string strFileLabel = jsonResponse["Description"].ToString();
+                        string strFileType = jsonResponse["DocumentType"].ToString(); ;//ContentType
+                        JToken t1 = objResponse.First;
+                        string strFileValue = ((JProperty)t1).Value.ToString();
+                        var responseCouchDB = JsonConvert.DeserializeObject<CouchDBGetResponse>(strFileValue);
+
+                        //dealing first attachment..........
+                        string strFileName = ((JProperty)t1).Name.ToString();
+                       string strContentType = t1.First["content_type"].ToString();
+                       
+                        byte[] byteArrays = null;
+
+                        var requestGetFile = (HttpWebRequest)WebRequest.Create(this.connectionString.TargetDocumentDatabaseConnectionString + "/" + documentId + "/" + strFileName);
+                        //(HttpWebRequest)WebRequest.Create(strCouchDBUri + "/" + strCouchDBName + "/" + param.ExternalDocumentId + "/" + strFileName);
+                        requestGetFile.Method = "get";
+                        try
+                        {
+                            var responseGetFile = (HttpWebResponse)requestGetFile.GetResponse();
+                            MemoryStream ms = new MemoryStream();
+                            responseGetFile.GetResponseStream().CopyTo(ms);
+                            byteArrays = ms.ToArray();
+                            ms.Close();
+                        }
+                        catch { }
+
+                        //dsResult.Tables[0].Rows.Add();
+                        documentModel.FileName = strFileName;
+                        documentModel.FileType = strFileType;
+                        documentModel.FileLabel = strFileLabel;
+                        documentModel.FileImage = byteArrays;
+                        //if (strFileType.Contains("image"))
+                        //{ d }
+
+
+                       
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return documentModel;
+        }
+
+        
+
         /// <summary>
         /// For Couch db
         /// </summary>
