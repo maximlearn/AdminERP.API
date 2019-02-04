@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Repositories
+namespace Domain.Services
 {
-    public interface ICompanyRepository
+    public interface ICompanyService
     {
         IEnumerable<CompanyModel> GetAllCompanies();
         ResponseModel SaveCompany(CompanyModel companyModel);
         CompanyModel GetCompanyById(int companyId);
-        ResponseModel IsExist(int Id);
+        ResponseModel IsExist(int id);
     }
 }

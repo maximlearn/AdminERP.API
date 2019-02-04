@@ -7,6 +7,9 @@ namespace Domain.Services
 {
     public interface IAssetCategoryService
     {
-        IEnumerable<AssetCategoryModel> GetAll();
+        IEnumerable<AssetCategoryModel> GetAllCategories();
+        ResponseModel SaveCategory(AssetCategoryModel assetCategoryModel);
+        AssetCategoryModel GetCategoryById(int Id);
+        ResponseModel IsExist(int id);
     }
 }
