@@ -28,7 +28,7 @@ namespace Repositories.Repository
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                var gatePassList = context.AssetGatePass
+                var gatePassList = context.AssetGatePass.Where(x=>x.IsActive == true)
                    .Select(p => new AssetGatePass()
                    {
                        Id = p.Id,
@@ -39,6 +39,8 @@ namespace Repositories.Repository
                        Remarks = p.Remarks,
                        CreatedDate = p.CreatedDate,
                        ModifiedDate = p.ModifiedDate,
+                       CreatedBy = p.CreatedBy,
+                       ModifiedBy = p.ModifiedBy,
                        ReceivedByNavigation = p.ReceivedByNavigation,
                        CreatedByNavigation = p.CreatedByNavigation,
                        AssetGatePassDetail = p.AssetGatePassDetail.Where(x => x.AssetGatePassId == p.Id).ToList(),
@@ -76,6 +78,8 @@ namespace Repositories.Repository
                        Remarks = p.Remarks,
                        CreatedDate = p.CreatedDate,
                        ModifiedDate = p.ModifiedDate,
+                       CreatedBy = p.CreatedBy,
+                       ModifiedBy = p.ModifiedBy,
                        ReceivedByNavigation = p.ReceivedByNavigation,
                        CreatedByNavigation = p.CreatedByNavigation,
                        AssetGatePassDetail = p.AssetGatePassDetail.Where(x => x.AssetGatePassId == gatePassId)
@@ -139,11 +143,8 @@ namespace Repositories.Repository
                         var gatePassDetailList = context.AssetGatePassDetail.Where(x => x.AssetGatePassId == assetGatePassModel.Id);
 
                         foreach (var item in gatePassDetailList)
-                        {
-                            //AssetGatePassDetail gatePassDetailEntity = new AssetGatePassDetail();
-                            // gatePassDetailEntity.Id = item.Id;
+                        {                           
                             context.Remove(item);
-
                         }
                         context.SaveChanges();
                     }
@@ -158,19 +159,21 @@ namespace Repositories.Repository
                     gatePassEntity.GatePassTypeId = assetGatePassModel.GatePassTypeId;
                     gatePassEntity.GatePassStatusId = statusList.Where(x => x.StatusName == "Pending").FirstOrDefault().Id;
                     gatePassEntity.ReceivedBy = 1;
-                    gatePassEntity.CreatedBy = 1;
-                    gatePassEntity.CreatedDate = DateTime.Now;
-                    gatePassEntity.ModifiedBy = 1;
-                    gatePassEntity.ModifiedDate = DateTime.Now;
                     gatePassEntity.IsActive = true;
                     gatePassEntity.Remarks = assetGatePassModel.Remarks;
                     if (assetGatePassModel.Id == 0)
                     {
+                        gatePassEntity.CreatedBy = 1;
+                        gatePassEntity.CreatedDate = DateTime.Now;
                         context.Add(gatePassEntity);
                     }
                     else
                     {
                         gatePassEntity.Id = assetGatePassModel.Id;
+                        gatePassEntity.CreatedBy = assetGatePassModel.CreatedBy;
+                        gatePassEntity.CreatedDate = assetGatePassModel.CreatedDate;
+                        gatePassEntity.ModifiedBy = 1;
+                        gatePassEntity.ModifiedDate = DateTime.Now;
                         context.Update(gatePassEntity);
                     }
 
@@ -232,24 +235,26 @@ namespace Repositories.Repository
                 ResponseModel objResponse = new ResponseModel();
                 try
                 {
-                    var gatePassSenderDetail = context.AssetGatePassSenderDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
-                    if (gatePassSenderDetail != null)
-                    {
-                        context.Remove<AssetGatePassSenderDetail>(gatePassSenderDetail);
-                        context.SaveChanges();
-                    }
+                    //var gatePassSenderDetail = context.AssetGatePassSenderDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
+                    //if (gatePassSenderDetail != null)
+                    //{
+                    //    context.Remove<AssetGatePassSenderDetail>(gatePassSenderDetail);
+                    //    context.SaveChanges();
+                    //}
 
-                    var gatePassDetail = context.AssetGatePassDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
-                    if (gatePassDetail != null)
-                    {
-                        context.Remove<AssetGatePassDetail>(gatePassDetail);
-                        context.SaveChanges();
-                    }
+                    //var gatePassDetail = context.AssetGatePassDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
+                    //if (gatePassDetail != null)
+                    //{
+                    //    context.Remove<AssetGatePassDetail>(gatePassDetail);
+                    //    context.SaveChanges();
+                    //}
 
                     var gatePass = context.AssetGatePass.Where(x => x.Id == gatePassId).FirstOrDefault();
                     if (gatePass != null)
                     {
-                        context.Remove<AssetGatePass>(gatePass);
+                        gatePass.IsActive = false;
+                        // context.Remove<AssetGatePass>(gatePass);
+                        context.Update(gatePass);
                         context.SaveChanges();
                     }
                     objResponse.Message = "Gate Pass Deleted successfully.";

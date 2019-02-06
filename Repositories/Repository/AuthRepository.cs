@@ -25,40 +25,47 @@ namespace Repositories.Repository
         }
         public UserModel Authenticate(LoginDetails userModel)
         {
-            var context = new AdminERPContext(connectionString);
-            var user = context.User.Include(x => x.UserCredential)
-                .Where(x => x.EmpId == userModel.UserId && x.UserCredential.FirstOrDefault().Password == userModel.Password).FirstOrDefault();
-            return modelMapper.Map<UserModel>(user);
+            using (var context = new AdminERPContext(connectionString))
+            {
+
+                var user = context.User.Include(x => x.UserCredential)
+                    .Where(x => x.EmpId == userModel.UserId && x.UserCredential.FirstOrDefault().Password == userModel.Password).FirstOrDefault();
+                return modelMapper.Map<UserModel>(user);
+            }
 
         }
         public IEnumerable<MenuModel>GetUserRoleMenuList(int roleId)
         {
-            var context = new AdminERPContext(connectionString);
-            var roleMenu = context.RoleMenu.Include(x => x.Menu).Where(p => p.RoleId == roleId && p.Menu.IsDisabled == false)
+            using (var context = new AdminERPContext(connectionString))
+            {
+                var roleMenu = context.RoleMenu.Include(x => x.Menu).Where(p => p.RoleId == roleId && p.Menu.IsDisabled == false)
                         .Select(p => new MenuModel()
                         {
                             Id = p.Menu.Id,
                             MenuLink = p.Menu.MenuLink,
                             MenuTitle = p.Menu.MenuTitle,
                             ParentMenuId = p.Menu.ParentMenuId,
-                            Tag=p.Menu.Tag
+                            Tag = p.Menu.Tag
 
-                        });
-            return roleMenu;
+                        }).ToList();
+                return roleMenu;
+            }
                
 
         }
         public IEnumerable<FunctionModel> GetUserRoleFunctionList(int roleId)
         {
-            var context = new AdminERPContext(connectionString);
-            var roleFunction = context.RoleFunction.Include(x => x.Function).Where(p => p.RoleId == roleId )
+            using (var context = new AdminERPContext(connectionString))
+            {
+                var roleFunction = context.RoleFunction.Include(x => x.Function).Where(p => p.RoleId == roleId)
                         .Select(p => new FunctionModel()
                         {
                             FunctionCode = p.Function.FunctionCode,
                             FunctionName = p.Function.FunctionName
-                        });
-            return roleFunction;
+                        }).ToList();
+                return roleFunction;
 
+            }
 
         }
     }

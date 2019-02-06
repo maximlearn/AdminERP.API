@@ -12,24 +12,40 @@ namespace WebAPI
 {
     public class Program
     {
+
         public static void Main(string[] args)
         {
-            try
-            {
-                CreateWebHostBuilder(args).Build().Run();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-          
-           
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-                
+                .ConfigureAppConfiguration(x => x.AddJsonFile("appsettings.json"))
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
     }
+
+    //public static void Main(string[] args)
+    //{
+    //    try
+    //    {
+    //        CreateWebHostBuilder(args).Build().Run();
+    //    }
+    //    catch (Exception ex)
+    //    {
+
+    //        throw ex;
+    //    }
+
+
+    //}
+
+    //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+    //    WebHost.CreateDefaultBuilder(args)
+    //        .UseStartup<Startup>();
+
 }
+

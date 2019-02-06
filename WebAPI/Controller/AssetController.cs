@@ -136,7 +136,7 @@ namespace WebAPI.Controller
                     objResponse = this.assetService.SaveAsset(ObjAssetData);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 objResponse.Message = "There is problem with the service.We are notified. Please try again later...";
                 return BadRequest(objResponse);

@@ -21,8 +21,8 @@ namespace DataEntities.AdminERPContext.Models
         public int? GatePassStatusId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
         public virtual Status GatePassStatus { get; set; }

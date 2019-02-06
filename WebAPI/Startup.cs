@@ -62,8 +62,9 @@ namespace WebAPI
 
             services.AddCommonServices();
             services.AddAppService();
-            services.AddSwaggerGen(c =>
-            { c.SwaggerDoc("v1", new Info { Title = "AdminERP" }); });
+           // services.AddSwaggerGen();
+           services.AddSwaggerGen(c =>
+            { c.SwaggerDoc("v1", new Info { Title = "AdminERP", Version = "v1" }); });
 
             services.AddDbContext<AdminERPContext>(
                builder => builder.UseSqlServer(Configuration.GetConnectionString("TargetDatabase")));
@@ -82,23 +83,30 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+           // if (env.IsDevelopment())
+           // {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+           // }
+           // else
+           // {
                 app.UseExceptionHandler("/error");
-            }
+           // }
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseMvc();
-          
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "api/{controller=Asset}/{action=GetAllAsset}/{id?}");
+            });
             app.UseSwagger();
-            app.UseSwaggerUI(c=>
+            app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+          //  app.UseSwaggerUI();
         }
     }
 }

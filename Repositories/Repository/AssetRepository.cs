@@ -130,8 +130,7 @@ namespace Repositories.Repository
                     assetEntity.AssetDescription = assetModel.AssetDescription;
                     assetEntity.CreatedBy = 1;
                     assetEntity.CreatedDate = DateTime.Now;
-                    assetEntity.ModifiedBy = 1;
-                    assetEntity.ModifiedDate = DateTime.Now;
+                   
                     assetEntity.IsActive = true;
                     context.Add(assetEntity);
                     context.SaveChanges();
@@ -177,8 +176,8 @@ namespace Repositories.Repository
                     assetEntity.AssetCategoryId = assetModel.AssetCategoryId;
                     assetEntity.AssetName = assetModel.AssetName;
                     assetEntity.AssetDescription = assetModel.AssetDescription;
-                    assetEntity.CreatedBy = 1;
-                    assetEntity.CreatedDate = DateTime.Now;
+                    assetEntity.CreatedBy = assetModel.CreatedBy;
+                    assetEntity.CreatedDate = assetModel.CreatedDate;
                     assetEntity.ModifiedBy = 1;
                     assetEntity.ModifiedDate = DateTime.Now;
                     assetEntity.IsActive = true;
@@ -241,19 +240,21 @@ namespace Repositories.Repository
                 ResponseModel objResponse = new ResponseModel();
                 try
                 {
-                    var assetDetail = context.AssetDetail.Where(x => x.AssetId == assetId).FirstOrDefault();
-                    if (assetDetail != null)
-                    {
-                        context.Remove<AssetDetail>(assetDetail);
-                        context.SaveChanges();
-                    }
+                    //var assetDetail = context.AssetDetail.Where(x => x.AssetId == assetId).FirstOrDefault();
+                    //if (assetDetail != null)
+                    //{
+                       
+                    //    //context.Remove<AssetDetail>(assetDetail);
+                    //    context.SaveChanges();
+                    //}
                     var asset = context.Asset.Where(x => x.Id == assetId).FirstOrDefault();
                     if (asset != null)
                     {
-                        context.Remove<Asset>(asset);
+                        asset.IsActive = false;
+                        //context.Remove<Asset>(asset);
                         context.SaveChanges();
                     }
-                    objResponse.Message = "Gate Pass Deleted successfully.";
+                    objResponse.Message = "Asset Deleted successfully.";
                     objResponse.IsSuccess = true;
                 }
                 catch (Exception ex)

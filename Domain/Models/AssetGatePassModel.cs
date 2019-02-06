@@ -19,9 +19,9 @@ namespace Domain.Models
         public int? GatePassStatusId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
-       
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+
         public virtual StatusModel GatePassStatus { get; set; }
         public virtual GatePassTypeModel GatePassType { get; set; }
         public virtual UserModel  CreatedByNavigation { get; set; }

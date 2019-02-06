@@ -46,7 +46,7 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
-        
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -96,7 +96,6 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.AssetModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Asset_User1");
             });
 
@@ -126,7 +125,6 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.AssetCategoryModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AssetCategory_User1");
             });
 
@@ -215,7 +213,6 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.AssetGatePassModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AssetGatePass_User2");
 
                 entity.HasOne(d => d.ReceivedByNavigation)
@@ -347,7 +344,6 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.ModifiedByNavigation)
                     .WithMany(p => p.CompanyModifiedByNavigation)
                     .HasForeignKey(d => d.ModifiedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Company_User1");
             });
 
@@ -371,6 +367,7 @@ namespace DataEntities.AdminERPContext.Models
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.DepartmentCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Department_User");
 
                 entity.HasOne(d => d.ModifiedByNavigation)
@@ -552,10 +549,10 @@ namespace DataEntities.AdminERPContext.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                entity.HasOne(d => d.Dept)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.DeptId)
+                    .HasConstraintName("FK_User_Department1");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.User)

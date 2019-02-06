@@ -7,6 +7,13 @@ namespace Domain.Services
 {
     public interface IUserService
     {
-        IEnumerable<UserModel> GetAll();
+        IEnumerable<RoleModel> GetRoleList();
+        IEnumerable<DepartmentModel> GetDepartmentList();
+        IEnumerable<UserModel> GetUserList();
+        ResponseModel DeleteUser(int userId);
+        ResponseModel SaveUser(UserModel user);
+        UserModel GetUserDetailById(int userId);
+
+
     }
 }

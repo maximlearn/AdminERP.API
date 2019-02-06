@@ -11,28 +11,8 @@ namespace Domain.Models
 
     public class UserModel
     {
-        public UserModel()
-        {
-            //AssetCategoryCreatedByNavigation = new HashSet<AssetCategory>();
-            //AssetCategoryModifiedByNavigation = new HashSet<AssetCategory>();
-            //AssetCreatedByNavigation = new HashSet<Asset>();
-            //AssetGatePassCreatedByNavigation = new HashSet<AssetGatePass>();
-            //AssetGatePassModifiedByNavigation = new HashSet<AssetGatePass>();
-            //AssetGatePassReceivedByNavigation = new HashSet<AssetGatePass>();
-            //AssetModifiedByNavigation = new HashSet<Asset>();
-            //CompanyCreatedByNavigation = new HashSet<Company>();
-            //CompanyModifiedByNavigation = new HashSet<Company>();
-            //DepartmentCreatedByNavigation = new HashSet<Department>();
-            //DepartmentModifiedByNavigation = new HashSet<Department>();
-            //RoleCreatedByNavigation = new HashSet<Role>();
-            //RoleModifiedByNavigation = new HashSet<Role>();
-            //UserCredential = new HashSet<UserCredential>();
-            //UserRole = new HashSet<UserRole>();
-            //UserSecurityAnswer = new HashSet<UserSecurityAnswer>();
-        }
-
-        public int Id { get; set; }
-        public string Title { get; set; }
+        
+        public int Id { get; set; }        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmpId { get; set; }
@@ -43,13 +23,13 @@ namespace Domain.Models
         public bool? IsActive { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
+        public int? ModifiedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
         public string Token { get; set; }
-
-
+        public RoleModel Role { get; set; }
+        public DepartmentModel Dept { get; set; }
         public virtual ICollection<UserCredentialModel> UserCredential { get; set; }
-      
+
         public virtual ICollection<UserSecurityAnswerModel> UserSecurityAnswer { get; set; }
     }
 
