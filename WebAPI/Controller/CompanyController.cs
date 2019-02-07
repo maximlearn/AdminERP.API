@@ -77,7 +77,7 @@ namespace WebAPI.Controller
             }
             catch (Exception ex)
             {
-                oResponse.Message = "There is problem with the service.We are notified. Please try again later...";
+                oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
                 return BadRequest(oResponse);
 
                 // throw; log the error;
@@ -87,11 +87,11 @@ namespace WebAPI.Controller
         }
 
         [HttpGet]
-        [Route("GetAsset")]
-        [Produces(typeof(AssetModel))]
-        public ActionResult GetAssetById(int assetId)
+        [Route("GetCompany")]
+        [Produces(typeof(CompanyModel))]
+        public ActionResult GetCompanyById(int companyId)
         {
-            var result = this.companyService.GetCompanyById(assetId);
+            var result = this.companyService.GetCompanyById(companyId);
 
             return Ok(result);
         }
