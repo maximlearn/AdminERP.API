@@ -35,6 +35,8 @@ namespace IoC.Registries
             services.AddTransient<IAssetGatePassRepository, AssetGatePassRepository>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IReportRepository, ReportRepository>();
 
 
         }

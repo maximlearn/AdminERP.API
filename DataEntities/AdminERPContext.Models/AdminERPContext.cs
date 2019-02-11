@@ -46,8 +46,6 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
 
-      
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
