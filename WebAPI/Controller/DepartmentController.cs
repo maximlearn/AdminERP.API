@@ -36,26 +36,10 @@ namespace WebAPI.Controller
         [HttpPost]
         [Route("AddDepartment")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveDepartment([FromQuery]string departmentData)
+        public ActionResult SaveDepartment(DepartmentModel departmentData)
         {
-            ResponseModel oResponse = null;
-            try
-            {
-                DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-                oResponse = this.departmentService.IsExist(oData.Id);
-                if (!oResponse.IsExist)
-                {
-                    oResponse = this.departmentService.SaveDepartment(oData);
-                }
-            }
-            catch (Exception ex)
-            {
-                oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
-                return BadRequest(oResponse);
-
-                // throw; log the error;
-            }
-            return Ok(oResponse);
+            var result = this.departmentService.SaveDepartment(departmentData);
+            return Ok(result);
         }
 
         [HttpPost]

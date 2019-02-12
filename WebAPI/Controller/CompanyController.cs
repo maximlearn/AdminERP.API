@@ -38,53 +38,37 @@ namespace WebAPI.Controller
         [HttpPost]
         [Route("AddCompany")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveCompany([FromQuery]string companyData)
+        public ActionResult SaveCompany(CompanyModel companyData)
         {
-            ResponseModel oResponse = null;
-            try
-            {
-                CompanyModel oData = JsonConvert.DeserializeObject<CompanyModel>(companyData);
-                oResponse = this.companyService.IsExist(oData.Id);
-                if (!oResponse.IsExist)
-                {
-                    oResponse = this.companyService.SaveCompany(oData);
-                }
-            }
-            catch (Exception ex)
-            {
-                oResponse.Message = "There is problem with the service.We are notified. Please try again later...";
-                return BadRequest(oResponse);
-
-                // throw; log the error;
-            }
-            return Ok(oResponse);
+            var result = this.companyService.SaveCompany(companyData);
+            return Ok(result);
         }
 
-        [HttpPost]
-        [Route("UpdateCompany")]
-        [Produces(typeof(ResponseModel))]
-        public ActionResult UpdateCompany([FromQuery]string companyData)
-        {
-            ResponseModel oResponse = null;
-            try
-            {
-                CompanyModel oData = JsonConvert.DeserializeObject<CompanyModel>(companyData);
-                oResponse = this.companyService.IsExist(oData.Id);
-                if (!oResponse.IsExist)
-                {
-                   oResponse = this.companyService.SaveCompany(oData);
-                }
-            }
-            catch (Exception ex)
-            {
-                oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
-                return BadRequest(oResponse);
+        //[HttpPost]
+        //[Route("UpdateCompany")]
+        //[Produces(typeof(ResponseModel))]
+        //public ActionResult UpdateCompany([FromQuery]string companyData)
+        //{
+        //    ResponseModel oResponse = null;
+        //    try
+        //    {
+        //        CompanyModel oData = JsonConvert.DeserializeObject<CompanyModel>(companyData);
+        //        oResponse = this.companyService.IsExist(oData.Id);
+        //        if (!oResponse.IsExist)
+        //        {
+        //           oResponse = this.companyService.SaveCompany(oData);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
+        //        return BadRequest(oResponse);
 
-                // throw; log the error;
-            }
+        //        // throw; log the error;
+        //    }
 
-            return Ok(oResponse);
-        }
+        //    return Ok(oResponse);
+        //}
 
         [HttpGet]
         [Route("GetCompany")]
