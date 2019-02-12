@@ -7,9 +7,10 @@ namespace Domain.Repositories
 {
     public interface IAssetCategoryRepository
     {
-        IEnumerable<AssetCategoryModel> GetAllCategories();
-        ResponseModel SaveAssetCategory(AssetCategoryModel categoryModel);
-        AssetCategoryModel GetAssetCategoryById(int categoryId);
-        ResponseModel IsExist(int Id);
+        IEnumerable<AssetCategoryModel> GetAllAssetCategory();
+        ResponseModel SaveAssetCategory(AssetCategoryModel assetCategoryModel);
+        AssetCategoryModel GetAssetCategoryById(int assetCategoryId);
+        ResponseModel DeleteAssetCategory(int assetCategoryId);
+        ResponseModel IsExist(AssetCategoryModel assetCategoryModel);
     }
 }

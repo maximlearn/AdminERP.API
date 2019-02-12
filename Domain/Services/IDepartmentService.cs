@@ -9,7 +9,8 @@ namespace Domain.Services
     {
         IEnumerable<DepartmentModel> GetAllDepartments();
         ResponseModel SaveDepartment(DepartmentModel departmentModel);
-        DepartmentModel GetDepartmentById(int Id);
-        ResponseModel IsExist(int id);
+        DepartmentModel GetDepartmentById(int departmentId);
+        ResponseModel IsExist(DepartmentModel departmentModel);
+        ResponseModel DeleteDepartment(int departmentId);
     }
 }
