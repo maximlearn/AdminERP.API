@@ -13,39 +13,39 @@ using Newtonsoft.Json;
 
 namespace WebAPI.Controller
 {
-    [Route("api/department")]
+    [Route("api/assetCategory")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class AssetCategoryController : ControllerBase
     {
-        public readonly IDepartmentService departmentService;
+        public readonly IAssetCategoryService assetCategoryService;
 
-        public DepartmentController(IDepartmentService _departmentService)
+        public AssetCategoryController(IAssetCategoryService _assetCategoryService)
         {
-            this.departmentService = _departmentService;
+            this.assetCategoryService = _assetCategoryService;
         }
 
         [HttpGet]
         [Route("GetAll")]
-        [Produces(typeof(IEnumerable<DepartmentModel>))]
-        public ActionResult GetAllDepartments()
+        [Produces(typeof(IEnumerable<AssetCategoryModel>))]
+        public ActionResult GetAllAssetCategory()
         {
-            var result = this.departmentService.GetAllDepartments();
+            var result = this.assetCategoryService.GetAllAssetCategory();
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("AddDepartment")]
+        [Route("AddAssetCategory")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveDepartment(DepartmentModel departmentModel)
+        public ActionResult SaveAssetCategory(AssetCategoryModel assetCategoryModel)
         {
             ResponseModel oResponse = null;
             try
             {
                // DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-                oResponse = this.departmentService.IsExist(departmentModel);
+                oResponse = this.assetCategoryService.IsExist(assetCategoryModel);
                 if (!oResponse.IsExist)
                 {
-                    oResponse = this.departmentService.SaveDepartment(departmentModel);
+                    oResponse = this.assetCategoryService.SaveAssetCategory(assetCategoryModel);
                 }
             }
             catch (Exception ex)
@@ -59,9 +59,9 @@ namespace WebAPI.Controller
         }
 
         //[HttpPost]
-        //[Route("UpdateDepartment")]
+        //[Route("UpdateAssetCategory")]
         //[Produces(typeof(ResponseModel))]
-        //public ActionResult UpdateDepartment(DepartmentModel departmentModel)
+        //public ActionResult UpdateAssetCategory(DepartmentModel departmentModel)
         //{
         //    ResponseModel oResponse = null;
         //    try
@@ -85,21 +85,21 @@ namespace WebAPI.Controller
         //}
 
         [HttpGet]
-        [Route("GetDepartment")]
+        [Route("GetAssetCategory")]
         [Produces(typeof(DepartmentModel))]
-        public ActionResult GetDepartmentById(int departmentId)
+        public ActionResult GetAssetCategoryById(int assetCategoryId)
         {
-            var result = this.departmentService.GetDepartmentById(departmentId);
+            var result = this.assetCategoryService.GetAssetCategoryById(assetCategoryId);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteDepartment")]
+        [Route("DeleteAssetCategory")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult DeleteDepartment(int departmentId)
+        public ActionResult DeleteAssetCategory(int assetCategoryId)
         {
-            var result = this.departmentService.DeleteDepartment(departmentId);
+            var result = this.assetCategoryService.DeleteAssetCategory(assetCategoryId);
 
             return Ok(result);
         }

@@ -24,7 +24,7 @@ namespace Repositories.Repository
             modelMapper = _modelMapper;
         }
 
-        public IEnumerable<AssetCategoryModel> GetAllCategories()
+        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
         {
             using (var context = new AdminERPContext(connectionString))
             {
@@ -45,27 +45,25 @@ namespace Repositories.Repository
                 return modelMapper.Map<AssetCategoryModel>(Items);
             }
         }
+       
 
-        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
-        {
-            using (var context = new AdminERPContext(connectionString))
-            {
-                var assetCategoryItems = context.AssetCategory.Where(x => x.IsActive == true).ToList(); ;
-                return modelMapper.Map<List<AssetCategoryModel>>(assetCategoryItems);
-            }
-        }
-
-        public ResponseModel IsExist(int Id)
+        public ResponseModel IsExist(AssetCategoryModel assetCategoryModel)
         {
             ResponseModel oResponse = new ResponseModel();
             using (var context = new AdminERPContext(connectionString))
             {
-                if (context.AssetCategory.Any(x => x.Id == Id))
+                Boolean IsExist = false;
+                if (assetCategoryModel.Id > 0)
+                { IsExist = context.AssetCategory.Any(x => x.CategoryName == assetCategoryModel.CategoryName && x.Id != assetCategoryModel.Id); }
+                else
+                { IsExist = context.AssetCategory.Any(x => x.CategoryName == assetCategoryModel.CategoryName); }
+
+                if (IsExist)
                 {
                     oResponse.IsExist = true;
                     oResponse.IsSuccess = false;
-                    oResponse.Message = "AssetCategory Id: " + Id + " is already exist in the system.";
-                }
+                    oResponse.Message = "Category Name: " + assetCategoryModel.CategoryName + " is already exist in the system.";
+                }               
             }
             return oResponse;
         }
@@ -92,7 +90,7 @@ namespace Repositories.Repository
                     assetCategoryEntity.IsActive = true;
                     context.Add(assetCategoryEntity);
                     context.SaveChanges();
-                    oResponse.Message = "AssetCategory saved successfully.";
+                    oResponse.Message = "Category saved successfully.";
                     oResponse.IsSuccess = true;
                 }
                 catch (Exception ex)
@@ -122,7 +120,7 @@ namespace Repositories.Repository
                     context.Update(assetCategoryEntity);
                     context.SaveChanges();
                     
-                    oResponse.Message = "AssetCategory updated successfully.";
+                    oResponse.Message = "Category updated successfully.";
                     oResponse.IsSuccess = true;
                 }
                 catch (Exception ex)
@@ -132,6 +130,24 @@ namespace Repositories.Repository
                 }
                 return oResponse;
             }
+        }
+
+        public ResponseModel DeleteAssetCategory(int assetCategoryId)
+        {
+            ResponseModel objResponse = new ResponseModel();
+            using (var context = new AdminERPContext(connectionString))
+            {
+                var assetCategory = context.AssetCategory.Where(x => x.Id == assetCategoryId).FirstOrDefault();
+                if (assetCategory != null)
+                {
+                    assetCategory.IsActive = false;
+                    context.SaveChanges();
+                }
+
+                objResponse.Message = "Category Deleted successfully.";
+                objResponse.IsSuccess = true;
+            }
+            return objResponse;
         }
     }
 }

@@ -10,5 +10,7 @@ namespace Domain.Repositories
         IEnumerable<DepartmentModel> GetAllDepartments();
         ResponseModel SaveDepartment(DepartmentModel departmentModel);
         DepartmentModel GetDepartmentById(int departmentId);
+        ResponseModel IsExist(DepartmentModel departmentModel);
+        ResponseModel DeleteDepartment(int departmentId);
     }
 }

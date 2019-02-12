@@ -9,31 +9,36 @@ namespace Services.Implementation
 {
     public class AssetCategoryService : IAssetCategoryService
     {
-        private readonly IAssetCategoryRepository categoryRepository;
+        private readonly IAssetCategoryRepository assetCategoryRepository;
 
-        public AssetCategoryService(IAssetCategoryRepository _categoryRepository)
+        public AssetCategoryService(IAssetCategoryRepository _assetCategoryRepository)
         {
-            this.categoryRepository = _categoryRepository;
+            this.assetCategoryRepository = _assetCategoryRepository;
         }
 
-        public IEnumerable<AssetCategoryModel> GetAllCategories()
+        public AssetCategoryModel GetAssetCategoryById(int assetCategoryId)
         {
-            return this.categoryRepository.GetAllCategories();
+            return this.assetCategoryRepository.GetAssetCategoryById(assetCategoryId);
         }
 
-        public AssetCategoryModel GetCategoryById(int categoryId)
+        public ResponseModel SaveAssetCategory(AssetCategoryModel assetCategoryModel)
         {
-            return this.categoryRepository.GetAssetCategoryById(categoryId);
+            return this.assetCategoryRepository.SaveAssetCategory(assetCategoryModel);
         }
 
-        public ResponseModel IsExist(int categoryId)
+        public ResponseModel DeleteAssetCategory(int assetCategoryId)
         {
-            return this.categoryRepository.IsExist(categoryId);
+            return this.assetCategoryRepository.DeleteAssetCategory(assetCategoryId);
         }
 
-        public ResponseModel SaveCategory(AssetCategoryModel assetCategoryModel)
+        public ResponseModel IsExist(AssetCategoryModel assetCategoryModel)
         {
-            return this.categoryRepository.SaveAssetCategory(assetCategoryModel);
+            return this.assetCategoryRepository.IsExist(assetCategoryModel);
+        }
+
+        public IEnumerable<AssetCategoryModel> GetAllAssetCategory()
+        {
+            return this.assetCategoryRepository.GetAllAssetCategory();
         }
     }
 }

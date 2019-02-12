@@ -7,9 +7,10 @@ namespace Domain.Services
 {
     public interface IAssetCategoryService
     {
-        IEnumerable<AssetCategoryModel> GetAllCategories();
-        ResponseModel SaveCategory(AssetCategoryModel assetCategoryModel);
-        AssetCategoryModel GetCategoryById(int Id);
-        ResponseModel IsExist(int id);
+        IEnumerable<AssetCategoryModel> GetAllAssetCategory();
+        ResponseModel SaveAssetCategory(AssetCategoryModel assetCategoryModel);
+        AssetCategoryModel GetAssetCategoryById(int assetCategoryId);
+        ResponseModel DeleteAssetCategory(int assetCategoryId);
+        ResponseModel IsExist(AssetCategoryModel assetCategoryModel);
     }
 }
