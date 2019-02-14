@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Models;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controller
 {
+    [Authorize]
     [Route("api/report")]
     [ApiController]
     public class ReportController : ControllerBase

@@ -7,9 +7,10 @@ namespace Domain.Repositories
 {
     public interface ICompanyRepository
     {
-        IEnumerable<CompanyModel> GetAllCompanies();
+        IEnumerable<CompanyModel> GetAllCompany();
         ResponseModel SaveCompany(CompanyModel companyModel);
         CompanyModel GetCompanyById(int companyId);
-        ResponseModel IsExist(int Id);
+        ResponseModel IsExist(CompanyModel companyModel);
+        ResponseModel DeleteCompany(int companyId);
     }
 }

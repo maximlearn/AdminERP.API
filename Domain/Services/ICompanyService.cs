@@ -7,9 +7,11 @@ namespace Domain.Services
 {
     public interface ICompanyService
     {
-        IEnumerable<CompanyModel> GetAllCompanies();
+        IEnumerable<CompanyModel> GetAllCompany();
         ResponseModel SaveCompany(CompanyModel companyModel);
         CompanyModel GetCompanyById(int companyId);
-        ResponseModel IsExist(int id);
+        ResponseModel IsExist(CompanyModel companyModel);
+        ResponseModel DeleteCompany(int companyId);
+
     }
 }

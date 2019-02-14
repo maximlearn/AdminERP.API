@@ -24,7 +24,25 @@ namespace Repositories.Repository
             modelMapper = _modelMapper;
         }
 
-        public IEnumerable<CompanyModel> GetAllCompanies()
+        public ResponseModel DeleteCompany(int companyId)
+        {
+            ResponseModel objResponse = new ResponseModel();
+            using (var context = new AdminERPContext(connectionString))
+            {
+                var company = context.Company.Where(x => x.Id == companyId).FirstOrDefault();
+                if (company != null)
+                {
+                    company.IsActive = false;
+                    context.SaveChanges();
+                }
+
+                objResponse.Message = "Company Deleted successfully.";
+                objResponse.IsSuccess = true;
+            }
+            return objResponse;
+        }
+
+        public IEnumerable<CompanyModel> GetAllCompany()
         {
             using (var context = new AdminERPContext(connectionString))
             {
@@ -41,24 +59,34 @@ namespace Repositories.Repository
                 var Items = context.Company
                                .Where(p => p.Id == companyId)
                                .FirstOrDefault();
+               
                 return modelMapper.Map<CompanyModel>(Items);
             }
         }
 
-        public ResponseModel IsExist(int Id)
+        public ResponseModel IsExist(CompanyModel companyModel)
         {
+
             ResponseModel oResponse = new ResponseModel();
             using (var context = new AdminERPContext(connectionString))
             {
-                if (context.Company.Any(x => x.Id == Id))
+                Boolean IsExist = false;
+                if (companyModel.Id > 0)
+                { IsExist = context.Company.Any(x => x.CompanyName == companyModel.CompanyName && x.Id != companyModel.Id); }
+                else
+                { IsExist = context.Company.Any(x => x.CompanyName == companyModel.CompanyName); }
+
+                if (IsExist)
                 {
                     oResponse.IsExist = true;
                     oResponse.IsSuccess = false;
-                    oResponse.Message = "Company Tag Id: " + Id + " is already exist in the system.";
+                    oResponse.Message = "Company Name: " + companyModel.CompanyName + " is already exist in the system.";
                 }
             }
             return oResponse;
         }
+
+      
 
         public ResponseModel SaveCompany(CompanyModel companyModel)
         {
@@ -82,8 +110,9 @@ namespace Repositories.Repository
                     companyEntity.IsActive = true;
                     companyEntity.CreatedBy = 1;
                     companyEntity.CreatedDate = DateTime.Now;
-                    companyEntity.ModifiedBy = 1;
-                    companyEntity.ModifiedDate = DateTime.Now;
+                    companyEntity.CompanyLogoId = companyModel.CompanyLogoId;
+                    context.Add(companyEntity);
+                    context.SaveChanges();
                     oResponse.Message = "Company saved successfully.";
                     oResponse.IsSuccess = true;
                 }
@@ -111,9 +140,10 @@ namespace Repositories.Repository
                     companyEntity.Phone = companyModel.Phone;
                     companyEntity.Email = companyModel.Email;
                     companyEntity.Country = companyModel.Country;
+                    companyEntity.CompanyLogoId = companyModel.CompanyLogoId;
                     companyEntity.IsActive = true;
-                    companyEntity.CreatedBy = 1;
-                    companyEntity.CreatedDate = DateTime.Now;
+                    companyEntity.CreatedBy = companyModel.CreatedBy;
+                    companyEntity.CreatedDate = companyModel.CreatedDate;
                     companyEntity.ModifiedBy = 1;
                     companyEntity.ModifiedDate = DateTime.Now;
 

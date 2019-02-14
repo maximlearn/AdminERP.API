@@ -12,7 +12,7 @@ namespace DataEntities.AdminERPContext.Models
         public string Email { get; set; }
         public string Country { get; set; }
         public string WebSiteUrl { get; set; }
-        public Guid? CompanyLogoId { get; set; }
+        public string CompanyLogoId { get; set; }
         public bool? IsActive { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

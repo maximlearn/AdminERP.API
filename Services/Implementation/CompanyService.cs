@@ -15,9 +15,14 @@ namespace Services.Implementation
             this.companyRepository = _companyRespoitory;
         }
 
-        public IEnumerable<CompanyModel> GetAllCompanies()
+        public ResponseModel DeleteCompany(int companyId)
         {
-            return this.companyRepository.GetAllCompanies();
+            return this.companyRepository.DeleteCompany(companyId);
+        }
+
+        public IEnumerable<CompanyModel> GetAllCompany()
+        {
+            return this.companyRepository.GetAllCompany();
         }
 
         public CompanyModel GetCompanyById(int companyId)
@@ -25,9 +30,9 @@ namespace Services.Implementation
             return this.companyRepository.GetCompanyById(companyId);
         }
 
-        public ResponseModel IsExist(int companyId)
+        public ResponseModel IsExist(CompanyModel companyModel)
         {
-            return this.companyRepository.IsExist(companyId);
+            return this.companyRepository.IsExist(companyModel);
         }
 
         public ResponseModel SaveCompany(CompanyModel companyModel)

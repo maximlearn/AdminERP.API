@@ -23,7 +23,6 @@ namespace DataEntities.AdminERPContext.Models
         {
             optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
         }
-
         public virtual DbSet<Asset> Asset { get; set; }
         public virtual DbSet<AssetCategory> AssetCategory { get; set; }
         public virtual DbSet<AssetDetail> AssetDetail { get; set; }
@@ -303,6 +302,10 @@ namespace DataEntities.AdminERPContext.Models
                 entity.Property(e => e.Address1)
                     .IsRequired()
                     .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompanyLogoId)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CompanyName)
@@ -612,9 +615,28 @@ namespace DataEntities.AdminERPContext.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.VendorName)
                     .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.VendorCreatedByNavigation)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Vendor_User");
+
+                entity.HasOne(d => d.ModifiedByNavigation)
+                    .WithMany(p => p.VendorModifiedByNavigation)
+                    .HasForeignKey(d => d.ModifiedBy)
+                    .HasConstraintName("FK_Vendor_User1");
             });
         }
 

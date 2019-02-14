@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,10 @@ namespace Domain.Repositories
 {
     public interface IVendorRepository
     {
-        IEnumerable<T> All<T>();
-        IEnumerable<T> GetByID<T>(int id);
+        IEnumerable<VendorModel> GetAllVendor();
+        ResponseModel SaveVendor(VendorModel vendorModel);
+        VendorModel GetVendorById(int vendorId);
+        ResponseModel IsExist(VendorModel vendorModel);
+        ResponseModel DeleteVendor(int vendorId);
     }
 }

@@ -20,6 +20,8 @@ namespace DataEntities.AdminERPContext.Models
             DepartmentModifiedByNavigation = new HashSet<Department>();
             UserCredential = new HashSet<UserCredential>();
             UserSecurityAnswer = new HashSet<UserSecurityAnswer>();
+            VendorCreatedByNavigation = new HashSet<Vendor>();
+            VendorModifiedByNavigation = new HashSet<Vendor>();
         }
 
         public int Id { get; set; }
@@ -51,5 +53,7 @@ namespace DataEntities.AdminERPContext.Models
         public virtual ICollection<Department> DepartmentModifiedByNavigation { get; set; }
         public virtual ICollection<UserCredential> UserCredential { get; set; }
         public virtual ICollection<UserSecurityAnswer> UserSecurityAnswer { get; set; }
+        public virtual ICollection<Vendor> VendorCreatedByNavigation { get; set; }
+        public virtual ICollection<Vendor> VendorModifiedByNavigation { get; set; }
     }
 }

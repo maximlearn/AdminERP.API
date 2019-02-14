@@ -14,39 +14,39 @@ using Newtonsoft.Json;
 namespace WebAPI.Controller
 {
     [Authorize]
-    [Route("api/department")]
+    [Route("api/vendor")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class VendorController : ControllerBase
     {
-        public readonly IDepartmentService departmentService;
+        public readonly IVendorService vendorService;
 
-        public DepartmentController(IDepartmentService _departmentService)
+        public VendorController(IVendorService _vendorService)
         {
-            this.departmentService = _departmentService;
+            this.vendorService = _vendorService;
         }
 
         [HttpGet]
         [Route("GetAll")]
-        [Produces(typeof(IEnumerable<DepartmentModel>))]
-        public ActionResult GetAllDepartments()
+        [Produces(typeof(IEnumerable<VendorModel>))]
+        public ActionResult GetAllVendor()
         {
-            var result = this.departmentService.GetAllDepartments();
+            var result = this.vendorService.GetAllVendor();
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("AddDepartment")]
+        [Route("AddVendor")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveDepartment(DepartmentModel departmentModel)
+        public ActionResult SaveVendor(VendorModel vendorModel)
         {
             ResponseModel oResponse = null;
             try
             {
-               // DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-                oResponse = this.departmentService.IsExist(departmentModel);
+               // VendorModel oData = JsonConvert.DeserializeObject<VendorModel>(vendorData);
+                oResponse = this.vendorService.IsExist(vendorModel);
                 if (!oResponse.IsExist)
                 {
-                    oResponse = this.departmentService.SaveDepartment(departmentModel);
+                    oResponse = this.vendorService.SaveVendor(vendorModel);
                 }
             }
             catch (Exception ex)
@@ -60,18 +60,18 @@ namespace WebAPI.Controller
         }
 
         //[HttpPost]
-        //[Route("UpdateDepartment")]
+        //[Route("UpdateVendor")]
         //[Produces(typeof(ResponseModel))]
-        //public ActionResult UpdateDepartment(DepartmentModel departmentModel)
+        //public ActionResult UpdateVendor(VendorModel vendorModel)
         //{
         //    ResponseModel oResponse = null;
         //    try
         //    {
-        //      //  DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-        //        oResponse = this.departmentService.IsExist(departmentModel);
+        //      //  VendorModel oData = JsonConvert.DeserializeObject<VendorModel>(vendorData);
+        //        oResponse = this.vendorService.IsExist(vendorModel);
         //        if (!oResponse.IsExist)
         //        {
-        //           oResponse = this.departmentService.SaveDepartment(departmentModel);
+        //           oResponse = this.vendorService.SaveVendor(vendorModel);
         //        }
         //    }
         //    catch (Exception ex)
@@ -86,21 +86,21 @@ namespace WebAPI.Controller
         //}
 
         [HttpGet]
-        [Route("GetDepartment")]
-        [Produces(typeof(DepartmentModel))]
-        public ActionResult GetDepartmentById(int departmentId)
+        [Route("GetVendor")]
+        [Produces(typeof(VendorModel))]
+        public ActionResult GetVendorById(int vendorId)
         {
-            var result = this.departmentService.GetDepartmentById(departmentId);
+            var result = this.vendorService.GetVendorById(vendorId);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("DeleteDepartment")]
+        [Route("DeleteVendor")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult DeleteDepartment(int departmentId)
+        public ActionResult DeleteVendor(int vendorId)
         {
-            var result = this.departmentService.DeleteDepartment(departmentId);
+            var result = this.vendorService.DeleteVendor(vendorId);
 
             return Ok(result);
         }

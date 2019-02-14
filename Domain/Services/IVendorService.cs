@@ -7,6 +7,10 @@ namespace Domain.Services
 {
     public interface IVendorService
     {
-        IEnumerable<VendorModel> GetAll();
+        IEnumerable<VendorModel> GetAllVendor();
+        ResponseModel SaveVendor(VendorModel vendorModel);
+        VendorModel GetVendorById(int vendorId);
+        ResponseModel IsExist(VendorModel vendorModel);
+        ResponseModel DeleteVendor(int vendorId);
     }
 }

@@ -18,6 +18,7 @@ namespace IoC.Mappings
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<Role, RoleModel>().ReverseMap();
             CreateMap<Department, DepartmentModel>().ReverseMap();
+            CreateMap<Company, CompanyModel>().ReverseMap();
             CreateMap<UserCredential, UserCredentialModel>().ReverseMap();            
             CreateMap<UserSecurityAnswer, UserSecurityAnswerModel>().ReverseMap();
             CreateMap<AssetGatePassModel, AssetGatePass>().ReverseMap();
