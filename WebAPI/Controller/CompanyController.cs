@@ -83,16 +83,30 @@ namespace WebAPI.Controller
         [HttpPost]
         [Route("SaveCompany")]
         [Produces(typeof(ResponseModel))]
-        public ActionResult SaveCompany(CompanyModel companyData)
+        public ActionResult SaveCompany([FromQuery]string companyData)
         {
             ResponseModel oResponse = null;
             try
             {
-                CompanyModel oData = JsonConvert.DeserializeObject<CompanyModel>(companyData);
-                oResponse = this.companyService.IsExist(oData.Id);
+                CompanyModel companyModel = JsonConvert.DeserializeObject<CompanyModel>(companyData);
+                oResponse = this.companyService.IsExist(companyModel);
                 if (!oResponse.IsExist)
                 {
-                    oResponse = this.companyService.SaveCompany(oData);
+
+                    List<DocumentModel> documents = null;
+                    if (Request.ContentLength > 0)
+                    {
+                        var files = Request.Form.Files;
+                        documents = UploadFiles(files);
+                    }
+
+                    if (documents != null)
+                    {
+                        companyModel.CompanyLogoId = (documents.FirstOrDefault(x => x.FileLabel == "CompanyLogo")) == null ? null :
+                           documents.FirstOrDefault(x => x.FileLabel == "CompanyLogo").DocumentId;
+                    }
+
+                    oResponse = this.companyService.SaveCompany(companyModel);
                 }
             }
             catch (Exception ex)
@@ -113,11 +127,25 @@ namespace WebAPI.Controller
             ResponseModel oResponse = null;
             try
             {
-                CompanyModel oData = JsonConvert.DeserializeObject<CompanyModel>(companyData);
-                oResponse = this.companyService.IsExist(oData.Id);
+                CompanyModel companyModel = JsonConvert.DeserializeObject<CompanyModel>(companyData);
+                oResponse = this.companyService.IsExist(companyModel);
                 if (!oResponse.IsExist)
                 {
-                   oResponse = this.companyService.SaveCompany(oData);
+                    List<DocumentModel> documents = null;
+                    if (Request.ContentLength > 0)
+                    {
+                        var files = Request.Form.Files;
+                        documents = UploadFiles(files);
+                    }
+
+                    if (documents != null)
+                    {
+                        companyModel.CompanyLogoId = (documents.FirstOrDefault(x => x.FileLabel == "CompanyLogo")) == null ? null :
+                           documents.FirstOrDefault(x => x.FileLabel == "CompanyLogo").DocumentId;
+                    }
+
+                    oResponse = this.companyService.SaveCompany(companyModel);
+
                 }
             }
             catch (Exception ex)
@@ -125,11 +153,11 @@ namespace WebAPI.Controller
                 oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
                 return BadRequest(oResponse);
 
-        //        // throw; log the error;
-        //    }
+                // throw; log the error;
+            }
 
-        //    return Ok(oResponse);
-        //}
+            return Ok(oResponse);
+        }
 
         [HttpGet]
         [Route("GetCompany")]
@@ -140,7 +168,7 @@ namespace WebAPI.Controller
             List<string> listDocumentId = new List<string>();
             if (!string.IsNullOrWhiteSpace(result.CompanyLogoId))
             {
-                result.companyLogo =  this.documentService.GetDocumentById(result.CompanyLogoId);
+                result.companyLogo = this.documentService.GetDocumentById(result.CompanyLogoId);
             }
 
             return Ok(result);
