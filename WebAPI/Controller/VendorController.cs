@@ -41,8 +41,7 @@ namespace WebAPI.Controller
         {
             ResponseModel oResponse = null;
             try
-            {
-               // VendorModel oData = JsonConvert.DeserializeObject<VendorModel>(vendorData);
+            {              
                 oResponse = this.vendorService.IsExist(vendorModel);
                 if (!oResponse.IsExist)
                 {
@@ -58,32 +57,6 @@ namespace WebAPI.Controller
             }
             return Ok(oResponse);
         }
-
-        //[HttpPost]
-        //[Route("UpdateVendor")]
-        //[Produces(typeof(ResponseModel))]
-        //public ActionResult UpdateVendor(VendorModel vendorModel)
-        //{
-        //    ResponseModel oResponse = null;
-        //    try
-        //    {
-        //      //  VendorModel oData = JsonConvert.DeserializeObject<VendorModel>(vendorData);
-        //        oResponse = this.vendorService.IsExist(vendorModel);
-        //        if (!oResponse.IsExist)
-        //        {
-        //           oResponse = this.vendorService.SaveVendor(vendorModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
-        //        return BadRequest(oResponse);
-
-        //        // throw; log the error;
-        //    }
-
-        //    return Ok(oResponse);
-        //}
 
         [HttpGet]
         [Route("GetVendor")]

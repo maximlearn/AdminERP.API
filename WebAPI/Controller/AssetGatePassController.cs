@@ -78,8 +78,7 @@ namespace WebAPI.Controller
         [Route("SaveAssetGatePass")]
         [Produces(typeof(ResponseModel))]
         public ActionResult SaveAssetGatePass(AssetGatePassModel assetGatePassModel)
-        {
-          //  AssetGatePassModel ObjAssetData = JsonConvert.DeserializeObject<AssetGatePassModel>(assetGatePassModel);
+        {          
             var result = this.assetGatePassService.SaveAssetGatePass(assetGatePassModel);
             return Ok(result);
         }
@@ -91,7 +90,6 @@ namespace WebAPI.Controller
         [Produces(typeof(ResponseModel))]
         public ActionResult DeleteAssetGatePass(int gatePassId)
         {
-            //  AssetGatePassModel ObjAssetData = JsonConvert.DeserializeObject<AssetGatePassModel>(assetGatePassModel);
             var result = this.assetGatePassService.DeleteAssetGatePass(gatePassId);
             return Ok(result);
         }

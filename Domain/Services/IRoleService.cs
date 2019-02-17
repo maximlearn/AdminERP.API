@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Repositories
+namespace Domain.Services
 {
-    public interface IRoleRepository
+    public interface IRoleService
     {
         IEnumerable<RoleModel> GetAllRole();
         ResponseModel SaveRole(RoleModel roleModel);
@@ -14,6 +14,6 @@ namespace Domain.Repositories
         ResponseModel DeleteRole(int roleId);
         IEnumerable<MenuModel> GetRoleMenuList(int roleId);
         IEnumerable<FunctionModel> GetRoleFunctionList(int roleId);
-
+        UserRoleModel GetUserRoleMenuFunctionList(int roleId);
     }
 }

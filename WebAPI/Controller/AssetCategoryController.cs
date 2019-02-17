@@ -59,32 +59,7 @@ namespace WebAPI.Controller
             return Ok(oResponse);
         }
 
-        //[HttpPost]
-        //[Route("UpdateAssetCategory")]
-        //[Produces(typeof(ResponseModel))]
-        //public ActionResult UpdateAssetCategory(DepartmentModel departmentModel)
-        //{
-        //    ResponseModel oResponse = null;
-        //    try
-        //    {
-        //      //  DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-        //        oResponse = this.departmentService.IsExist(departmentModel);
-        //        if (!oResponse.IsExist)
-        //        {
-        //           oResponse = this.departmentService.SaveDepartment(departmentModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
-        //        return BadRequest(oResponse);
-
-        //        // throw; log the error;
-        //    }
-
-        //    return Ok(oResponse);
-        //}
-
+       
         [HttpGet]
         [Route("GetAssetCategory")]
         [Produces(typeof(DepartmentModel))]

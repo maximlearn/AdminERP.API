@@ -23,6 +23,8 @@ namespace DataEntities.AdminERPContext.Models
         {
             optionsBuilder.UseSqlServer(this.connectionString.TargetDatabaseConnectionString);
         }
+
+
         public virtual DbSet<Asset> Asset { get; set; }
         public virtual DbSet<AssetCategory> AssetCategory { get; set; }
         public virtual DbSet<AssetDetail> AssetDetail { get; set; }
@@ -44,6 +46,8 @@ namespace DataEntities.AdminERPContext.Models
         public virtual DbSet<UserCredential> UserCredential { get; set; }
         public virtual DbSet<UserSecurityAnswer> UserSecurityAnswer { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
+
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

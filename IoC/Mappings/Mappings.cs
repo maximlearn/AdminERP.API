@@ -17,6 +17,10 @@ namespace IoC.Mappings
             CreateMap<VendorModel, Vendor>().ReverseMap();
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<Role, RoleModel>().ReverseMap();
+            CreateMap<RoleMenu, RoleMenuModel>().ReverseMap();
+            CreateMap<RoleFunction, RoleFunctionModel>().ReverseMap();
+            CreateMap<Menu, MenuModel>().ReverseMap();
+            CreateMap<Function, FunctionModel>().ReverseMap();
             CreateMap<Department, DepartmentModel>().ReverseMap();
             CreateMap<Company, CompanyModel>().ReverseMap();
             CreateMap<UserCredential, UserCredentialModel>().ReverseMap();            

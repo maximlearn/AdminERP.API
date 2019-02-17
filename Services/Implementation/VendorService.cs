@@ -19,8 +19,7 @@ namespace Services.Implementation
         {
             return this.vendorRepository.DeleteVendor(vendorId);
         }
-
-        //private readonly IVendorRepository vendorRepository;
+               
         public IEnumerable<VendorModel> GetAllVendor()
         {
             return this.vendorRepository.GetAllVendor();

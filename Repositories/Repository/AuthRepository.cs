@@ -34,39 +34,6 @@ namespace Repositories.Repository
             }
 
         }
-        public IEnumerable<MenuModel>GetUserRoleMenuList(int roleId)
-        {
-            using (var context = new AdminERPContext(connectionString))
-            {
-                var roleMenu = context.RoleMenu.Include(x => x.Menu).Where(p => p.RoleId == roleId && p.Menu.IsDisabled == false)
-                        .Select(p => new MenuModel()
-                        {
-                            Id = p.Menu.Id,
-                            MenuLink = p.Menu.MenuLink,
-                            MenuTitle = p.Menu.MenuTitle,
-                            ParentMenuId = p.Menu.ParentMenuId,
-                            Tag = p.Menu.Tag
-
-                        }).ToList();
-                return roleMenu;
-            }
-               
-
-        }
-        public IEnumerable<FunctionModel> GetUserRoleFunctionList(int roleId)
-        {
-            using (var context = new AdminERPContext(connectionString))
-            {
-                var roleFunction = context.RoleFunction.Include(x => x.Function).Where(p => p.RoleId == roleId)
-                        .Select(p => new FunctionModel()
-                        {
-                            FunctionCode = p.Function.FunctionCode,
-                            FunctionName = p.Function.FunctionName
-                        }).ToList();
-                return roleFunction;
-
-            }
-
-        }
+       
     }
 }

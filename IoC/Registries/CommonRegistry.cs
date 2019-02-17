@@ -45,6 +45,8 @@ namespace IoC.Registries
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IVendorService, VendorService>();
             services.AddTransient<IVendorRepository, VendorRepository>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
 
 
         }

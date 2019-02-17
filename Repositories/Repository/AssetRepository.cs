@@ -28,7 +28,7 @@ namespace Repositories.Repository
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                var assetItems = context.Asset
+                var assetItems = context.Asset.Where(x => x.IsActive == true)
                    .Select(p => new Asset()
                    {
                        Id = p.Id,
@@ -41,11 +41,6 @@ namespace Repositories.Repository
                        AssetDescription = p.AssetDescription,                       
                        AssetDetail = p.AssetDetail.Where(x => x.AssetId == p.Id).ToList()
                    }).ToList();
-
-                //var assetItems = context
-                //                    .Asset.Include(x => x.AssetCategory)
-                //                    .Include(x => x.AssetDetail)
-                //                    .ThenInclude(y => y.Vendor);
                 return modelMapper.Map<List<AssetModel>>(assetItems);
             }
         }
@@ -217,7 +212,7 @@ namespace Repositories.Repository
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                var assetTagList = context.Asset
+                var assetTagList = context.Asset.Where(x =>x.IsActive == true)
                     .Select(p => new Asset()
                     {
                         Id = p.Id,

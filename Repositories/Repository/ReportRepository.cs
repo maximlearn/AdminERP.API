@@ -35,7 +35,7 @@ namespace Repositories.Repository
             }
         }
 
-       
+
 
 
 
@@ -50,8 +50,8 @@ namespace Repositories.Repository
                 //                  join d in context.Asset on c.Asset.Id equals d.Id
                 //                  where b.accountId == 3
                 //                  select new { a.Id, b.Id,....etc });
-                
-              context.Database.OpenConnection();
+
+                context.Database.OpenConnection();
                 IDbCommand dbCommand = context.Database.GetDbConnection().CreateCommand();
                 dbCommand.CommandText = "GetGatePassReportWithItems";
                 dbCommand.CommandType = CommandType.StoredProcedure;
@@ -86,11 +86,11 @@ namespace Repositories.Repository
             }
         }
 
-            public IEnumerable<AssetGatePassModel> GetGatePassSummaryReport()
+        public IEnumerable<AssetGatePassModel> GetGatePassSummaryReport()
         {
             using (var context = new AdminERPContext(connectionString))
             {
-                var reportData = context.AssetGatePass.Select(p => new AssetGatePass()
+                var reportData = context.AssetGatePass.Where(x => x.IsActive == true).Select(p => new AssetGatePass()
                 {
                     Id = p.Id,
                     GatePassNo = p.GatePassNo,

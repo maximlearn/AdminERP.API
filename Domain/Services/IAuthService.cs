@@ -8,8 +8,7 @@ namespace Domain.Services
    public interface IAuthService
     {
         UserModel Authenticate(LoginDetails userModel);
-        UserRoleModel GetUserRoleMenuFunctionList(int roleId);
-       
+  
     }
 
 }

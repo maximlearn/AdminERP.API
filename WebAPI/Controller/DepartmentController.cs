@@ -41,8 +41,7 @@ namespace WebAPI.Controller
         {
             ResponseModel oResponse = null;
             try
-            {
-               // DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
+            {              
                 oResponse = this.departmentService.IsExist(departmentModel);
                 if (!oResponse.IsExist)
                 {
@@ -59,31 +58,6 @@ namespace WebAPI.Controller
             return Ok(oResponse);
         }
 
-        //[HttpPost]
-        //[Route("UpdateDepartment")]
-        //[Produces(typeof(ResponseModel))]
-        //public ActionResult UpdateDepartment(DepartmentModel departmentModel)
-        //{
-        //    ResponseModel oResponse = null;
-        //    try
-        //    {
-        //      //  DepartmentModel oData = JsonConvert.DeserializeObject<DepartmentModel>(departmentData);
-        //        oResponse = this.departmentService.IsExist(departmentModel);
-        //        if (!oResponse.IsExist)
-        //        {
-        //           oResponse = this.departmentService.SaveDepartment(departmentModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        oResponse.Message = "There is problem with the service. We are notified. Please try again later...";
-        //        return BadRequest(oResponse);
-
-        //        // throw; log the error;
-        //    }
-
-        //    return Ok(oResponse);
-        //}
 
         [HttpGet]
         [Route("GetDepartment")]

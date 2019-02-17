@@ -152,7 +152,6 @@ namespace WebAPI.Controller
         [Produces(typeof(ResponseModel))]
         public ActionResult DeleteAsset(int assetId)
         {
-            //  AssetGatePassModel ObjAssetData = JsonConvert.DeserializeObject<AssetGatePassModel>(assetGatePassModel);
             var result = this.assetService.DeleteAsset(assetId);
             return Ok(result);
         }
@@ -183,20 +182,6 @@ namespace WebAPI.Controller
             var result = this.documentService.GetDocumentById(documentId);
             return Ok(result);
         }
-
-
-
-        //[HttpGet]
-        //[Route("GetDocumentById")]
-        //[Produces(typeof(IEnumerable<DocumentModel>))]
-        //public ActionResult GetDocumentById(List<string>  listDocumentId)
-        //{
-        //    var result = this.documentService.GetDocumentById(listDocumentId);
-
-        //    return Ok(result);
-        //}
-
-
 
         private List<DocumentModel> UploadFiles(IFormFileCollection httpPostedFiles)
         {

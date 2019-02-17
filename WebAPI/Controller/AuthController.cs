@@ -22,23 +22,14 @@ namespace WebAPI.Controller
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService authService;
+        private readonly IAuthService authService;     
         private readonly AppSettings appSettings;
         public AuthController(IAuthService _authService, IOptions<AppSettings> _appSettings)
         {
-            this.authService = _authService;
+            this.authService = _authService;           
             appSettings = _appSettings.Value;
-        }
-
+        }       
        
-        [HttpGet]
-        [Route("UserRoleMenuFunction")]
-        [Produces(typeof(UserRoleModel))]
-        public IActionResult GetUserRoleMenuFunctions(int  roleId)
-        {
-           var userRole= authService.GetUserRoleMenuFunctionList(roleId);
-            return Ok(userRole);
-        }
 
         [AllowAnonymous]
         [HttpPost]

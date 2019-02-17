@@ -20,7 +20,7 @@ namespace Services.Implementation
             return this.deptRepository.DeleteDepartment(departmentId);
         }
 
-        //private readonly IDepartmentRepository departmentRepository;
+   
         public IEnumerable<DepartmentModel> GetAllDepartments()
         {
             return this.deptRepository.GetAllDepartments();

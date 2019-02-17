@@ -7,6 +7,7 @@ namespace Domain.Models
     {
         public int Id { get; set; }
         public int RoleId { get; set; }
+        public short ParentMenuId { get; set; }
         public short MenuId { get; set; }
 
         //public virtual MenuModel Menu { get; set; }
