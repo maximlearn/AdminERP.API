@@ -81,9 +81,7 @@ namespace WebAPI.Controller
         {          
             var result = this.assetGatePassService.SaveAssetGatePass(assetGatePassModel);
             return Ok(result);
-        }
-
-       
+        }       
 
         [HttpPost]
         [Route("DeleteAssetGatePass")]
@@ -93,6 +91,16 @@ namespace WebAPI.Controller
             var result = this.assetGatePassService.DeleteAssetGatePass(gatePassId);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("UpdateGatePassStatus")]
+        [Produces(typeof(ResponseModel))]
+        public ActionResult UpdateGatePassStatus(AssetGatePassModel assetGatePass)
+        {
+            var result = this.assetGatePassService.UpdateGatePassStatus(assetGatePass);
+            return Ok(result);
+        }
+
 
 
 

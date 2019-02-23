@@ -13,6 +13,8 @@ namespace Domain.Services
         AssetGatePassModel GetGatePassDetailById(int assetGatePassId);
         IEnumerable<QuantityUnitModel> GetAllUnit();
         ResponseModel DeleteAssetGatePass(int gatePassId);
-        
+        ResponseModel UpdateGatePassStatus(AssetGatePassModel assetGatePass);
+
+
     }
 }

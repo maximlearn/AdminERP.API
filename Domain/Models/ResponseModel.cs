@@ -11,5 +11,6 @@ namespace Domain.Models
         public String Message { get; set; }
         public Boolean IsSuccess { get; set; }
         public Boolean IsExist { get; set; }
+        public string GatePassNo { get; set; }
     }
 }

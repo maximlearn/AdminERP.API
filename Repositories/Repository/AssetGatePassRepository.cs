@@ -138,6 +138,7 @@ namespace Repositories.Repository
                 try
                 {
                     // start delete the existing asset Gate Pass detail from Db in case of edit
+                    string maxGatePassNo = string.Empty;
                     if (assetGatePassModel.Id > 0)
                     {
                         var gatePassDetailList = context.AssetGatePassDetail.Where(x => x.AssetGatePassId == assetGatePassModel.Id);
@@ -151,10 +152,20 @@ namespace Repositories.Repository
                     // end delete the existing asset Gate Pass detail from Db in case of edit
 
                     var statusList = context.Status.ToList();
-
+                    // ID = ((int?)context.AssetGatePass.Max(x => (int?)x.Id) ?? 0) + 1;
+                   
                     AssetGatePass gatePassEntity = new AssetGatePass();
-                    
-                    gatePassEntity.GatePassNo = assetGatePassModel.GatePassNo;
+                    if (assetGatePassModel.Id == 0)
+                    {
+                        maxGatePassNo = "GP-" + Convert.ToString(((int?)context.AssetGatePass.Max(x => (int?)x.Id) ?? 0) + 1);
+                        gatePassEntity.GatePassNo = maxGatePassNo;//assetGatePassModel.GatePassNo;
+                    }
+                    else
+                    {
+                        gatePassEntity.GatePassNo = assetGatePassModel.GatePassNo;
+                    }
+
+                  
                     gatePassEntity.GatePassDate = assetGatePassModel.GatePassDate;
                     gatePassEntity.GatePassTypeId = assetGatePassModel.GatePassTypeId;
                     gatePassEntity.GatePassStatusId = statusList.Where(x => x.StatusName == "Pending").FirstOrDefault().Id;
@@ -163,7 +174,7 @@ namespace Repositories.Repository
                     gatePassEntity.Remarks = assetGatePassModel.Remarks;
                     if (assetGatePassModel.Id == 0)
                     {
-                        gatePassEntity.CreatedBy = 1;
+                        gatePassEntity.CreatedBy = assetGatePassModel.CreatedBy;
                         gatePassEntity.CreatedDate = DateTime.Now;
                         context.Add(gatePassEntity);
                     }
@@ -206,6 +217,7 @@ namespace Repositories.Repository
                     if (assetGatePassModel.Id == 0)
                     {
                         context.Add(gatePassSenderDetail);
+                        objResponse.GatePassNo = maxGatePassNo;
                         objResponse.Message = "Gate Pass Created successfully.";
                     }
                     else
@@ -234,20 +246,7 @@ namespace Repositories.Repository
             {
                 ResponseModel objResponse = new ResponseModel();
                 try
-                {
-                    //var gatePassSenderDetail = context.AssetGatePassSenderDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
-                    //if (gatePassSenderDetail != null)
-                    //{
-                    //    context.Remove<AssetGatePassSenderDetail>(gatePassSenderDetail);
-                    //    context.SaveChanges();
-                    //}
-
-                    //var gatePassDetail = context.AssetGatePassDetail.Where(x => x.AssetGatePassId == gatePassId).FirstOrDefault();
-                    //if (gatePassDetail != null)
-                    //{
-                    //    context.Remove<AssetGatePassDetail>(gatePassDetail);
-                    //    context.SaveChanges();
-                    //}
+                {                  
 
                     var gatePass = context.AssetGatePass.Where(x => x.Id == gatePassId).FirstOrDefault();
                     if (gatePass != null)
@@ -270,6 +269,39 @@ namespace Repositories.Repository
                 return objResponse;
 
             }
+        }
+
+        public ResponseModel UpdateGatePassStatus(AssetGatePassModel assetGatePass)
+        {
+            using (var context = new AdminERPContext(connectionString))
+            {
+                ResponseModel objResponse = new ResponseModel();
+                try
+                {
+
+                    var gatePass = context.AssetGatePass.Where(x => x.Id == assetGatePass.Id).FirstOrDefault();
+                    var gatePassStausId = context.Status.Where(x => x.StatusName == assetGatePass.GatePassStatus.StatusName).FirstOrDefault().Id;
+                    if (gatePass != null)
+                    {
+                        gatePass.GatePassStatusId = gatePassStausId;
+                        gatePass.Comment = assetGatePass.Comment;
+                        // context.Remove<AssetGatePass>(gatePass);
+                        context.Update(gatePass);
+                        context.SaveChanges();
+                    }
+                    objResponse.Message = "Gate Pass " + assetGatePass.GatePassStatus.StatusName +  " successfully.";
+                    objResponse.IsSuccess = true;
+
+                }
+                catch (Exception ex)
+                {
+                    objResponse.Message = ex.Message;
+                    objResponse.IsSuccess = false;
+                }
+
+                return objResponse;
+
+            } 
         }
     }
 }

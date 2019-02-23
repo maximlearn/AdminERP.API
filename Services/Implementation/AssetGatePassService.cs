@@ -44,5 +44,10 @@ namespace Services.Implementation
         {
             return this.assetGatePassRepository.SaveAssetGatePass(assetGatePassModel);
         }
+
+        public ResponseModel UpdateGatePassStatus(AssetGatePassModel assetGatePass)
+        {
+            return this.assetGatePassRepository.UpdateGatePassStatus(assetGatePass);
+        }
     }
 }
